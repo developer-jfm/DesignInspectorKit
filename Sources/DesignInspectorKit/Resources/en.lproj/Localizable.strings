@@ -1,8 +1,8 @@
 /* General */
 "inspector.title" = "Inspector";
 "inspector.close" = "Close";
-"inspector.tap_to_inspect" = "Tap to inspect";
-"inspector.long_press_to_exit" = "Long press to exit";
+"inspector.tap_to_inspect" = "Tap any view to inspect";
+"inspector.long_press_to_exit" = "Long press to exit inspector";
 
 /* View Properties */
 "inspector.frame" = "Frame";

@@ -13,15 +13,15 @@ extension UIViewController {
         static var inspectorGestureKey: UInt8 = 0
     }
     
-    /// Attaches a long-press gesture recognizer (2 seconds) to this view controller.
-    /// When triggered, presents the inspector overlay.
+    /// Attaches a long-press gesture recognizer to this view controller.
+    /// Requires **2 fingers** held for **2 seconds** to activate the inspector overlay.
     /// Has no effect if the gesture is already attached.
     public func enableDesignInspector() {
         guard objc_getAssociatedObject(self, &AssociatedKeys.inspectorGestureKey) == nil else { return }
-        
-        
+
         let gesture = UILongPressGestureRecognizer(target: self, action: #selector(handleInspectorGesture(_:)))
         gesture.minimumPressDuration = 2
+        gesture.numberOfTouchesRequired = 2
         view.addGestureRecognizer(gesture)
         
         objc_setAssociatedObject(self, &AssociatedKeys.inspectorGestureKey, gesture, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)

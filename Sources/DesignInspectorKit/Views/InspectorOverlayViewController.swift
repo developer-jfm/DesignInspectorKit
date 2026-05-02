@@ -35,7 +35,7 @@ public final class InspectorOverlayViewController: UIViewController {
     
     private lazy var instructionLabel: UILabel = {
         let label = UILabel()
-        label.text = "Tap to inspect"
+        label.text = InspectorKey.tapToInspect
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
         label.textAlignment = .center
