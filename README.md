@@ -1,60 +1,146 @@
 # DesignInspectorKit
 
-Uma biblioteca Swift para inspeção e debug visual de interfaces iOS.
+A Swift library for visual inspection and debugging of iOS interfaces. Tap any view at runtime to inspect its layout, colors, fonts, spacing, constraints, accessibility properties, and control state through an interactive overlay — with full dark mode support.
 
-## Requisitos
+## Requirements
 
-- iOS 14.0+
-- Swift 6.2+
-- Xcode 16.0+
+- iOS 13.0+
+- Swift 5.9+
+- Xcode 15.0+
 
-## Instalação
+## Installation
 
 ### Swift Package Manager
 
-Adicione o pacote ao seu `Package.swift`:
+Add to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/seu-usuario/DesignInspectorKit.git", from: "1.0.0")
+    .package(url: "https://github.com/developer-jfm/DesignInspectorKit.git", from: "1.0.0")
 ]
 ```
 
-Ou via Xcode: **File → Add Package Dependencies...**
+Or via Xcode: **File → Add Package Dependencies...**
 
-## Uso
+## Usage
+
+### Enable globally (auto-attaches to all view controllers)
 
 ```swift
 import DesignInspectorKit
 
-// Inicialize o DesignInspector
-let inspector = DesignInspector()
-inspector.enable()
+DesignInspector.shared.enable()
 ```
 
-## Estrutura do Projeto
+Once enabled, **long press (2 seconds)** on any screen to activate the overlay, then **tap any view** to inspect it.
+
+### Enable manually on a specific view controller
+
+```swift
+viewController.enableDesignInspector()
+```
+
+### Present programmatically
+
+```swift
+DesignInspector.shared.inspect(viewController: self)
+```
+
+### Custom configuration
+
+```swift
+var config = InspectorConfiguration.default
+config.highlightColor = UIColor.systemGreen.withAlphaComponent(0.3)
+config.colorTokenColorResolver = { color in
+    return DesignTokens.name(for: color)
+}
+config.fontTokenColorResolver = { font in
+    return DesignTokens.name(for: font)
+}
+config.spacingTokenResolver = { spacing in
+    return DesignTokens.name(for: spacing)
+}
+DesignInspector.shared.configuration = config
+```
+
+## Inspected Properties
+
+The inspector panel shows the following properties for each tapped view:
+
+| Category | Properties |
+|----------|-----------|
+| **Layout** | Frame, Corner Radius, Border Width/Color, Alpha, Layout Margins |
+| **Colors** | Background, Tint (with design token support) |
+| **Text** | Content, Font, Text Color, Alignment, Number of Lines (UILabel, UIButton, UITextField, UITextView) |
+| **Image** | Name/token, Intrinsic size, Rendered size, Content mode (UIImageView) |
+| **UIStackView** | Axis, Distribution, Alignment, Spacing |
+| **UIScrollView** | Content size, Content insets, Paging enabled |
+| **UISwitch** | Is on, On tint color, Thumb tint color |
+| **UISlider** | Current value, Min/Max range |
+| **UIProgressView** | Progress %, Progress tint color |
+| **UIActivityIndicatorView** | Is animating |
+| **Accessibility** | Identifier, Label, Traits, Is accessibility element |
+| **Sibling Spacing** | Distance to nearest sibling above, below, left, right |
+| **Hierarchy** | Depth level, Subviews count |
+
+## Project Structure
 
 ```
 Sources/
 └── DesignInspectorKit/
-    └── DesignInspectorKit.swift    # Código fonte principal
+    ├── DesignInspectorKit.swift                   # Main entry point (DesignInspector class)
+    ├── Core/
+    │   ├── DesignInspectorSwizzler.swift          # Method swizzling for auto-attach
+    │   └── ViewHierachyInspector.swift            # View hierarchy traversal & data extraction
+    ├── Models/
+    │   ├── ViewInspectorInfo.swift                # Inspected view data snapshot
+    │   └── InspectorConfiguration.swift           # Appearance & token resolver options
+    ├── Views/
+    │   ├── InspectorOverlayViewController.swift   # Full-screen inspection overlay
+    │   └── InspectorInfoPanelView.swift           # Scrollable property panel
+    ├── Extensions/
+    │   ├── UIView+Inspector.swift                 # Sibling spacing & deep hit-test helpers
+    │   ├── UIViewController+Inspector.swift       # Gesture attach/detach helpers
+    │   ├── UIColor+Hex.swift                      # Hex string conversion & brightness check
+    │   └── String+Localization.swift              # Typed localization keys (InspectorKey)
+    └── Resources/
+        ├── en.lproj/Localizable.strings
+        ├── pt-BR.lproj/Localizable.strings
+        └── es.lproj/Localizable.strings
 Tests/
 └── DesignInspectorKitTests/
-    └── DesignInspectorKitTests.swift # Testes unitários
+    └── DesignInspectorKitTests.swift              # Unit tests (20 test cases)
 ```
 
-## Desenvolvimento
+## Localization
+
+DesignInspectorKit supports the following languages out of the box:
+
+| Language | Code |
+|----------|------|
+| English | `en` |
+| Portuguese (Brazil) | `pt-BR` |
+| Spanish | `es` |
+
+Use `InspectorKey` for typed access to all localized strings:
+
+```swift
+let title = InspectorKey.title
+let closeLabel = InspectorKey.close
+```
+
+## Development
 
 ### Build
 
 ```bash
-swift build
+xcodebuild -scheme DesignInspectorKit -destination 'platform=iOS Simulator,name=iPhone 16'
 ```
 
-### Testes
+### Test
 
 ```bash
-swift test
+xcodebuild test -scheme DesignInspectorKit -destination 'platform=iOS Simulator,name=iPhone 16'
 ```
 
 ### Lint
@@ -63,14 +149,24 @@ swift test
 swiftlint
 ```
 
-## Contribuição
+## Git Flow
 
-1. Fork o projeto
-2. Crie uma branch (`git checkout -b feature/nova-feature`)
-3. Commit suas mudanças (`git commit -am 'Adiciona nova feature'`)
-4. Push para a branch (`git push origin feature/nova-feature`)
-5. Abra um Pull Request
+This project follows **Git Flow**:
 
-## Licença
+- `main` — stable releases
+- `develop` — integration branch
+- `feature/*` — new features
+- `hotfix/*` — production fixes
+- `release/*` — release preparation
 
-Este projeto está licenciado sob a MIT License - veja o arquivo [LICENSE](LICENSE) para detalhes.
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/my-feature`)
+3. Commit your changes (`git commit -am 'Add my feature'`)
+4. Push to the branch (`git push origin feature/my-feature`)
+5. Open a Pull Request targeting `develop`
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

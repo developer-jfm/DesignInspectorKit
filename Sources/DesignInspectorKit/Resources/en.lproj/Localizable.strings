@@ -1,0 +1,64 @@
+/* General */
+"inspector.title" = "Inspector";
+"inspector.close" = "Close";
+"inspector.tap_to_inspect" = "Tap to inspect";
+"inspector.long_press_to_exit" = "Long press to exit";
+
+/* View Properties */
+"inspector.frame" = "Frame";
+"inspector.background" = "Background";
+"inspector.tint_color" = "Tint Color";
+"inspector.alpha" = "Alpha";
+"inspector.corner_radius" = "Corner Radius";
+"inspector.border_width" = "Border Width";
+"inspector.border_color" = "Border Color";
+
+/* Image Properties */
+"inspector.image" = "Image";
+"inspector.image_size" = "Image Size";
+"inspector.image_rendered_size" = "Rendered Size";
+"inspector.content_mode" = "Content Mode";
+
+/* Content Modes */
+"inspector.content_mode.scale_to_fill" = "Scale To Fill";
+"inspector.content_mode.scale_aspect_fit" = "Scale Aspect Fit";
+"inspector.content_mode.scale_aspect_fill" = "Scale Aspect Fill";
+"inspector.content_mode.center" = "Center";
+"inspector.content_mode.top" = "Top";
+"inspector.content_mode.bottom" = "Bottom";
+"inspector.content_mode.left" = "Left";
+"inspector.content_mode.right" = "Right";
+"inspector.content_mode.top_left" = "Top Left";
+"inspector.content_mode.top_right" = "Top Right";
+"inspector.content_mode.bottom_left" = "Bottom Left";
+"inspector.content_mode.bottom_right" = "Bottom Right";
+
+/* Text Properties */
+"inspector.text" = "Text";
+"inspector.font" = "Font";
+"inspector.text_color" = "Text Color";
+"inspector.text_alignment" = "Alignment";
+"inspector.number_of_lines" = "Lines";
+
+/* Layout Properties */
+"inspector.spacing" = "Spacing";
+"inspector.spacing_above" = "Spacing Above";
+"inspector.spacing_below" = "Spacing Below";
+"inspector.spacing_left" = "Spacing Left";
+"inspector.spacing_right" = "Spacing Right";
+"inspector.content_insets" = "Content Insets";
+"inspector.layout_margins" = "Layout Margins";
+
+/* Accessibility */
+"inspector.accessibility_id" = "Accessibility ID";
+"inspector.accessibility_label" = "Accessibility Label";
+"inspector.accessibility_traits" = "Accessibility Traits";
+
+/* Hierarchy */
+"inspector.subviews_count" = "Subviews";
+"inspector.depth" = "Depth";
+
+/* Constraints */
+"inspector.constraints" = "Constraints";
+"inspector.constraint_active" = "Active";
+"inspector.constraint_inactive" = "Inactive";

@@ -1,0 +1,64 @@
+/* General */
+"inspector.title" = "Inspector";
+"inspector.close" = "Cerrar";
+"inspector.tap_to_inspect" = "Toca para inspeccionar";
+"inspector.long_press_to_exit" = "Mantén presionado para salir";
+
+/* Propiedades de la Vista */
+"inspector.frame" = "Frame";
+"inspector.background" = "Fondo";
+"inspector.tint_color" = "Color de Tinte";
+"inspector.alpha" = "Alfa";
+"inspector.corner_radius" = "Radio de Esquina";
+"inspector.border_width" = "Grosor del Borde";
+"inspector.border_color" = "Color del Borde";
+
+/* Propiedades de Imagen */
+"inspector.image" = "Imagen";
+"inspector.image_size" = "Tamaño de Imagen";
+"inspector.image_rendered_size" = "Tamaño Renderizado";
+"inspector.content_mode" = "Modo de Contenido";
+
+/* Modos de Contenido */
+"inspector.content_mode.scale_to_fill" = "Escalar para Llenar";
+"inspector.content_mode.scale_aspect_fit" = "Ajuste Proporcional";
+"inspector.content_mode.scale_aspect_fill" = "Relleno Proporcional";
+"inspector.content_mode.center" = "Centrado";
+"inspector.content_mode.top" = "Arriba";
+"inspector.content_mode.bottom" = "Abajo";
+"inspector.content_mode.left" = "Izquierda";
+"inspector.content_mode.right" = "Derecha";
+"inspector.content_mode.top_left" = "Superior Izquierdo";
+"inspector.content_mode.top_right" = "Superior Derecho";
+"inspector.content_mode.bottom_left" = "Inferior Izquierdo";
+"inspector.content_mode.bottom_right" = "Inferior Derecho";
+
+/* Propiedades de Texto */
+"inspector.text" = "Texto";
+"inspector.font" = "Fuente";
+"inspector.text_color" = "Color del Texto";
+"inspector.text_alignment" = "Alineación";
+"inspector.number_of_lines" = "Líneas";
+
+/* Propiedades de Layout */
+"inspector.spacing" = "Espaciado";
+"inspector.spacing_above" = "Espacio Arriba";
+"inspector.spacing_below" = "Espacio Abajo";
+"inspector.spacing_left" = "Espacio a la Izquierda";
+"inspector.spacing_right" = "Espacio a la Derecha";
+"inspector.content_insets" = "Insets de Contenido";
+"inspector.layout_margins" = "Márgenes de Layout";
+
+/* Accesibilidad */
+"inspector.accessibility_id" = "ID de Accesibilidad";
+"inspector.accessibility_label" = "Etiqueta de Accesibilidad";
+"inspector.accessibility_traits" = "Traits de Accesibilidad";
+
+/* Jerarquía */
+"inspector.subviews_count" = "Subvistas";
+"inspector.depth" = "Profundidad";
+
+/* Restricciones */
+"inspector.constraints" = "Restricciones";
+"inspector.constraint_active" = "Activa";
+"inspector.constraint_inactive" = "Inactiva";
