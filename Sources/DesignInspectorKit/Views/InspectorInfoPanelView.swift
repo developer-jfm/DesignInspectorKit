@@ -259,12 +259,12 @@ final class InspectorInfoPanelView: UIView {
         // MARK: Sibling Spacing
         if let view = info.view {
             if let topSpacing = view.spacingToSiblingAbove {
-                let spacingValue = configuration.spacingTokenColorResolver?(topSpacing)
+                let spacingValue = configuration.spacingTokenColorResolver.flatMap { $0(topSpacing) }
                     .map { "\($0) (\(Int(topSpacing))pt)" } ?? "\(Int(topSpacing))pt"
                 addInfoRow(label: InspectorKey.spacingAbove, value: spacingValue)
             }
             if let bottomSpacing = view.spacingToSiblingBelow {
-                let spacingValue = configuration.spacingTokenResolver?(bottomSpacing)
+                let spacingValue = configuration.spacingTokenResolver.flatMap { $0(bottomSpacing) }
                     .map { "\($0) (\(Int(bottomSpacing))pt)" } ?? "\(Int(bottomSpacing))pt"
                 addInfoRow(label: InspectorKey.spacingBelow, value: spacingValue)
             }
