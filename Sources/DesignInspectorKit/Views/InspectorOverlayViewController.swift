@@ -62,22 +62,35 @@ public final class InspectorOverlayViewController: UIViewController {
         return button
     }()
     
+    private lazy var dimmingView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.15)
+        view.alpha = 0
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
     private lazy var infoPanel: InspectorInfoPanelView = {
         let panel = InspectorInfoPanelView(configuration: configuration)
-        panel.accessibilityHint = "Swipe up to dismiss"
         panel.isHidden = true
         panel.translatesAutoresizingMaskIntoConstraints = false
         panel.onClose = { [weak self] in
-            UIView.animate(withDuration: 0.2) {
-                self?.infoPanel.alpha = 0
-            } completion: { _ in
-                self?.infoPanel.isHidden = true
-                self?.highlightLayer?.removeFromSuperlayer()
-                self?.removeConstraintsLayers()
-            }
+            self?.hideInfoPanel()
         }
         return panel
     }()
+
+    /// Hides the info panel with animation, restoring overlay brightness and clearing highlights.
+    private func hideInfoPanel() {
+        UIView.animate(withDuration: 0.2) { [weak self] in
+            self?.infoPanel.alpha = 0
+            self?.dimmingView.alpha = 0
+        } completion: { [weak self] _ in
+            self?.infoPanel.isHidden = true
+            self?.highlightLayer?.removeFromSuperlayer()
+            self?.removeConstraintsLayers()
+        }
+    }
     
     private lazy var deactivateLabel: UILabel = {
         let label = UILabel()
@@ -134,6 +147,7 @@ public final class InspectorOverlayViewController: UIViewController {
         view.addSubview(instructionLabel)
         view.addSubview(closeButton)
         view.addSubview(deactivateLabel)
+        view.addSubview(dimmingView)
         view.addSubview(infoPanel)
         view.bringSubviewToFront(closeButton)
         
@@ -148,11 +162,16 @@ public final class InspectorOverlayViewController: UIViewController {
             instructionLabel.widthAnchor.constraint(equalToConstant: Layout.instructionWidth),
             instructionLabel.heightAnchor.constraint(equalToConstant: Layout.instructionHeight),
             
+            dimmingView.topAnchor.constraint(equalTo: view.topAnchor),
+            dimmingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            dimmingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            dimmingView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+
             infoPanel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Layout.padding),
             infoPanel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Layout.padding),
             infoPanel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Layout.padding),
             infoPanel.heightAnchor.constraint(equalToConstant: Layout.panelHeight),
-            
+
             deactivateLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             deactivateLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             deactivateLabel.widthAnchor.constraint(equalToConstant: Layout.deactivateWidth),
@@ -234,6 +253,10 @@ public final class InspectorOverlayViewController: UIViewController {
     /// and populates the info panel with the view's properties.
     /// - Parameter view: The view to inspect.
     private func selectView(_ view: UIView) {
+        let feedback = UIImpactFeedbackGenerator(style: .light)
+        feedback.prepare()
+        feedback.impactOccurred()
+
         highlightLayer?.removeFromSuperlayer()
         removeConstraintsLayers()
         
@@ -256,6 +279,7 @@ public final class InspectorOverlayViewController: UIViewController {
         infoPanel.isHidden = false
         UIView.animate(withDuration: 0.3) { [weak self] in
             self?.infoPanel.alpha = 1
+            self?.dimmingView.alpha = 1
         }
     }
     
@@ -379,16 +403,19 @@ public final class InspectorOverlayViewController: UIViewController {
     private func drawValueLabel(at point: CGPoint, value: CGFloat, color: UIColor) {
         let text = "\(Int(value))"
         let font = UIFont.systemFont(ofSize: 10, weight: .semibold)
-        
+
         let textLayer = CATextLayer()
         textLayer.string = text
         textLayer.font = font
         textLayer.fontSize = 10
         textLayer.foregroundColor = UIColor.white.cgColor
-        textLayer.backgroundColor = color.cgColor
+        textLayer.backgroundColor = UIColor.black.withAlphaComponent(0.6).cgColor
+        textLayer.borderColor = color.cgColor
+        textLayer.borderWidth = 1
         textLayer.contentsScale = UIScreen.main.scale
-        textLayer.cornerRadius = 3
-        
+        textLayer.cornerRadius = 4
+        textLayer.alignmentMode = .center
+
         let textSize = (text as NSString).size(withAttributes: [.font: font])
         let padding: CGFloat = 4
         let labelSize = CGSize(width: textSize.width + padding * 2, height: textSize.height + padding)

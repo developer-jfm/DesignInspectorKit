@@ -87,6 +87,10 @@ final class InspectorInfoPanelView: UIView {
     }
     
     private func setupUI() {
+        let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(closePanelTapped))
+        swipeGesture.direction = .up
+        addGestureRecognizer(swipeGesture)
+
         backgroundColor = configuration.annotationColor.withAlphaComponent(0.15)
         layer.cornerRadius = Layout.cornerRadius
         addSubview(scrollView)
