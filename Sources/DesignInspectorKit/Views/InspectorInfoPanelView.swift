@@ -258,7 +258,7 @@ final class InspectorInfoPanelView: UIView {
         // MARK: Sibling Spacing
         if let view = info.view {
             if let topSpacing = view.spacingToSiblingAbove {
-                let spacingValue = configuration.spacingTokenColorResolver.flatMap { $0(topSpacing) }
+                let spacingValue = configuration.spacingTokenResolver.flatMap { $0(topSpacing) }
                     .map { "\($0) (\(Int(topSpacing))pt)" } ?? "\(Int(topSpacing))pt"
                 addInfoRow(label: InspectorKey.spacingAbove, value: spacingValue)
             }
