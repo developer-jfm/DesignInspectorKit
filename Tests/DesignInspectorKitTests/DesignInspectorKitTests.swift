@@ -54,7 +54,7 @@ import UIKit
         priority: 1000,
         isActive: true
     )
-    #expect(info.description == "leading == 16.0 @ 1000 ")
+    #expect(info.description == "leading == 16.0 @ 1000")
 }
 
 @Test func constraintInfo_isActive() {
@@ -62,12 +62,12 @@ import UIKit
     #expect(info.isActive == false)
 }
 
-// MARK: - ViewHierachyInspector
+// MARK: - ViewHierarchyInspector
 
 @Test @MainActor func inspector_inspectSingle_returnsCorrectClassName() {
     let view = UILabel()
     view.frame = CGRect(x: 0, y: 0, width: 100, height: 44)
-    let inspector = ViewHierachyInspector(configuration: .default)
+    let inspector = ViewHierarchyInspector(configuration: .default)
     let info = inspector.inspectSingle(view)
     #expect(info.className == "UILabel")
 }
@@ -75,7 +75,7 @@ import UIKit
 @Test @MainActor func inspector_inspectSingle_returnsCorrectFrame() {
     let view = UIView()
     view.frame = CGRect(x: 10, y: 20, width: 80, height: 40)
-    let inspector = ViewHierachyInspector(configuration: .default)
+    let inspector = ViewHierarchyInspector(configuration: .default)
     let info = inspector.inspectSingle(view)
     #expect(info.frame == CGRect(x: 10, y: 20, width: 80, height: 40))
 }
@@ -84,7 +84,7 @@ import UIKit
     let root = UIView(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
     root.addSubview(UIView(frame: .zero))
     root.addSubview(UIView(frame: .zero))
-    let inspector = ViewHierachyInspector(configuration: .default)
+    let inspector = ViewHierarchyInspector(configuration: .default)
     let results = inspector.inspect(root)
     #expect(results.count == 3)
 }
@@ -95,7 +95,7 @@ import UIKit
     let grandchild = UIView(frame: .zero)
     root.addSubview(child)
     child.addSubview(grandchild)
-    let inspector = ViewHierachyInspector(configuration: .default)
+    let inspector = ViewHierarchyInspector(configuration: .default)
     let results = inspector.inspect(root)
     #expect(results[0].depth == 0)
     #expect(results[1].depth == 1)
@@ -106,7 +106,7 @@ import UIKit
     let label = UILabel()
     label.text = "Hello"
     label.frame = CGRect(x: 0, y: 0, width: 100, height: 30)
-    let inspector = ViewHierachyInspector(configuration: .default)
+    let inspector = ViewHierarchyInspector(configuration: .default)
     let info = inspector.inspectSingle(label)
     #expect(info.text == "Hello")
 }
@@ -115,7 +115,7 @@ import UIKit
     let label = UILabel()
     label.font = .boldSystemFont(ofSize: 18)
     label.frame = .zero
-    let inspector = ViewHierachyInspector(configuration: .default)
+    let inspector = ViewHierarchyInspector(configuration: .default)
     let info = inspector.inspectSingle(label)
     #expect(info.font?.pointSize == 18)
 }
@@ -123,7 +123,7 @@ import UIKit
 @Test @MainActor func inspector_alpha_captured() {
     let view = UIView(frame: .zero)
     view.alpha = 0.5
-    let inspector = ViewHierachyInspector(configuration: .default)
+    let inspector = ViewHierarchyInspector(configuration: .default)
     let info = inspector.inspectSingle(view)
     #expect(info.alpha == 0.5)
 }
@@ -131,7 +131,7 @@ import UIKit
 @Test @MainActor func inspector_cornerRadius_captured() {
     let view = UIView(frame: .zero)
     view.layer.cornerRadius = 8
-    let inspector = ViewHierachyInspector(configuration: .default)
+    let inspector = ViewHierarchyInspector(configuration: .default)
     let info = inspector.inspectSingle(view)
     #expect(info.cornerRadius == 8)
 }
@@ -211,7 +211,7 @@ import UIKit
 @Test @MainActor func inspector_stackView_extractsAxis() {
     let stack = UIStackView(frame: .zero)
     stack.axis = .horizontal
-    let inspector = ViewHierachyInspector(configuration: .default)
+    let inspector = ViewHierarchyInspector(configuration: .default)
     let info = inspector.inspectSingle(stack)
     #expect(info.stackAxis == .horizontal)
 }
@@ -219,7 +219,7 @@ import UIKit
 @Test @MainActor func inspector_stackView_extractsSpacing() {
     let stack = UIStackView(frame: .zero)
     stack.spacing = 12
-    let inspector = ViewHierachyInspector(configuration: .default)
+    let inspector = ViewHierarchyInspector(configuration: .default)
     let info = inspector.inspectSingle(stack)
     #expect(info.spacing == 12)
 }
@@ -227,7 +227,7 @@ import UIKit
 @Test @MainActor func inspector_stackView_extractsDistribution() {
     let stack = UIStackView(frame: .zero)
     stack.distribution = .fillEqually
-    let inspector = ViewHierachyInspector(configuration: .default)
+    let inspector = ViewHierarchyInspector(configuration: .default)
     let info = inspector.inspectSingle(stack)
     #expect(info.stackDistribution == .fillEqually)
 }
@@ -235,7 +235,7 @@ import UIKit
 @Test @MainActor func inspector_stackView_extractsAlignment() {
     let stack = UIStackView(frame: .zero)
     stack.alignment = .center
-    let inspector = ViewHierachyInspector(configuration: .default)
+    let inspector = ViewHierarchyInspector(configuration: .default)
     let info = inspector.inspectSingle(stack)
     #expect(info.stackAlignment == .center)
 }
@@ -245,7 +245,7 @@ import UIKit
 @Test @MainActor func inspector_switch_extractsIsOn() {
     let sw = UISwitch(frame: .zero)
     sw.isOn = true
-    let inspector = ViewHierachyInspector(configuration: .default)
+    let inspector = ViewHierarchyInspector(configuration: .default)
     let info = inspector.inspectSingle(sw)
     #expect(info.switchIsOn == true)
 }
@@ -253,7 +253,7 @@ import UIKit
 @Test @MainActor func inspector_switch_extractsIsOff() {
     let sw = UISwitch(frame: .zero)
     sw.isOn = false
-    let inspector = ViewHierachyInspector(configuration: .default)
+    let inspector = ViewHierarchyInspector(configuration: .default)
     let info = inspector.inspectSingle(sw)
     #expect(info.switchIsOn == false)
 }
@@ -265,7 +265,7 @@ import UIKit
     slider.minimumValue = 0
     slider.maximumValue = 100
     slider.value = 42
-    let inspector = ViewHierachyInspector(configuration: .default)
+    let inspector = ViewHierarchyInspector(configuration: .default)
     let info = inspector.inspectSingle(slider)
     #expect(info.sliderValue == 42)
     #expect(info.sliderMinValue == 0)
@@ -277,7 +277,7 @@ import UIKit
 @Test @MainActor func inspector_progressView_extractsProgress() {
     let progress = UIProgressView(frame: .zero)
     progress.progress = 0.75
-    let inspector = ViewHierachyInspector(configuration: .default)
+    let inspector = ViewHierarchyInspector(configuration: .default)
     let info = inspector.inspectSingle(progress)
     #expect(info.progressValue == 0.75)
 }
@@ -287,7 +287,7 @@ import UIKit
 @Test @MainActor func inspector_scrollView_extractsContentSize() {
     let scroll = UIScrollView(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
     scroll.contentSize = CGSize(width: 400, height: 800)
-    let inspector = ViewHierachyInspector(configuration: .default)
+    let inspector = ViewHierarchyInspector(configuration: .default)
     let info = inspector.inspectSingle(scroll)
     #expect(info.scrollContentSize == CGSize(width: 400, height: 800))
 }
@@ -295,7 +295,7 @@ import UIKit
 @Test @MainActor func inspector_scrollView_pagingEnabled() {
     let scroll = UIScrollView(frame: .zero)
     scroll.isPagingEnabled = true
-    let inspector = ViewHierachyInspector(configuration: .default)
+    let inspector = ViewHierarchyInspector(configuration: .default)
     let info = inspector.inspectSingle(scroll)
     #expect(info.scrollIsPagingEnabled == true)
 }
@@ -305,7 +305,7 @@ import UIKit
 @Test @MainActor func inspector_textField_extractsText() {
     let field = UITextField(frame: .zero)
     field.text = "test input"
-    let inspector = ViewHierachyInspector(configuration: .default)
+    let inspector = ViewHierarchyInspector(configuration: .default)
     let info = inspector.inspectSingle(field)
     #expect(info.text == "test input")
 }
@@ -314,7 +314,7 @@ import UIKit
     let field = UITextField(frame: .zero)
     field.text = ""
     field.placeholder = "Enter email"
-    let inspector = ViewHierachyInspector(configuration: .default)
+    let inspector = ViewHierarchyInspector(configuration: .default)
     let info = inspector.inspectSingle(field)
     #expect(info.text == "Enter email")
 }
@@ -324,7 +324,7 @@ import UIKit
 @Test @MainActor func inspector_button_extractsTitle() {
     let button = UIButton(type: .system)
     button.setTitle("Tap me", for: .normal)
-    let inspector = ViewHierachyInspector(configuration: .default)
+    let inspector = ViewHierarchyInspector(configuration: .default)
     let info = inspector.inspectSingle(button)
     #expect(info.text == "Tap me")
 }
@@ -334,7 +334,7 @@ import UIKit
 @Test @MainActor func inspector_borderWidth_captured() {
     let view = UIView(frame: .zero)
     view.layer.borderWidth = 2
-    let inspector = ViewHierachyInspector(configuration: .default)
+    let inspector = ViewHierarchyInspector(configuration: .default)
     let info = inspector.inspectSingle(view)
     #expect(info.borderWidth == 2)
 }
@@ -342,7 +342,7 @@ import UIKit
 @Test @MainActor func inspector_tintColor_captured() {
     let view = UIView(frame: .zero)
     view.tintColor = .systemRed
-    let inspector = ViewHierachyInspector(configuration: .default)
+    let inspector = ViewHierarchyInspector(configuration: .default)
     let info = inspector.inspectSingle(view)
     #expect(info.tintColor != nil)
 }
@@ -351,7 +351,7 @@ import UIKit
 
 @Test @MainActor func inspector_plainView_hasNoStackAxis() {
     let view = UIView(frame: .zero)
-    let inspector = ViewHierachyInspector(configuration: .default)
+    let inspector = ViewHierarchyInspector(configuration: .default)
     let info = inspector.inspectSingle(view)
     #expect(info.stackAxis == nil)
     #expect(info.switchIsOn == nil)

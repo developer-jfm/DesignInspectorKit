@@ -30,11 +30,11 @@ public struct InspectorConfiguration {
     // MARK: - Token Resolvers
     
     /// Returns a design token name for a given `UIColor`. Used for background and text colors.
-    public var colorTokenColorResolver: ((UIColor) -> String)?
-    /// Returns a design token name for a spacing `CGFloat` value (e.g. stack view spacing).
-    public var spacingTokenColorResolver: ((CGFloat) -> String)?
+    public var colorTokenResolver: ((UIColor) -> String)?
+    /// Returns a design token name for a `UIStackView` spacing value.
+    public var stackSpacingTokenResolver: ((CGFloat) -> String)?
     /// Returns a design token name for a given `UIFont`.
-    public var fontTokenColorResolver: ((UIFont) -> String)?
+    public var fontTokenResolver: ((UIFont) -> String)?
     /// Returns a design token name for a sibling spacing `CGFloat` value.
     public var spacingTokenResolver: ((CGFloat) -> String)?
     /// Returns a design token name for a given `UIImage`.
@@ -49,9 +49,9 @@ public struct InspectorConfiguration {
         textColor: .label,
         secondaryTextColor: .secondaryLabel,
         overlayBackgroundColor: UIColor.black.withAlphaComponent(0.8),
-        colorTokenColorResolver: nil,
-        spacingTokenColorResolver: nil,
-        fontTokenColorResolver: nil,
+        colorTokenResolver: nil,
+        stackSpacingTokenResolver: nil,
+        fontTokenResolver: nil,
         spacingTokenResolver: nil,
         imageTokenResolver: nil,
         imageAccessibilityLabelResolver: nil
@@ -66,9 +66,9 @@ public struct InspectorConfiguration {
         textColor: UIColor = .label,
         secondaryTextColor: UIColor = .secondaryLabel,
         overlayBackgroundColor: UIColor = UIColor.black.withAlphaComponent(0.8),
-        colorTokenColorResolver: ((UIColor) -> String)? = nil,
-        spacingTokenColorResolver: ((CGFloat) -> String)? = nil,
-        fontTokenColorResolver: ((UIFont) -> String)? = nil,
+        colorTokenResolver: ((UIColor) -> String)? = nil,
+        stackSpacingTokenResolver: ((CGFloat) -> String)? = nil,
+        fontTokenResolver: ((UIFont) -> String)? = nil,
         spacingTokenResolver: ((CGFloat) -> String)? = nil,
         imageTokenResolver: ((UIImage) -> String)? = nil,
         imageAccessibilityLabelResolver: ((UIImage) -> String)? = nil
@@ -79,9 +79,9 @@ public struct InspectorConfiguration {
         self.textColor = textColor
         self.secondaryTextColor = secondaryTextColor
         self.overlayBackgroundColor = overlayBackgroundColor
-        self.colorTokenColorResolver = colorTokenColorResolver
-        self.spacingTokenColorResolver = spacingTokenColorResolver
-        self.fontTokenColorResolver = fontTokenColorResolver
+        self.colorTokenResolver = colorTokenResolver
+        self.stackSpacingTokenResolver = stackSpacingTokenResolver
+        self.fontTokenResolver = fontTokenResolver
         self.spacingTokenResolver = spacingTokenResolver
         self.imageTokenResolver = imageTokenResolver
         self.imageAccessibilityLabelResolver = imageAccessibilityLabelResolver

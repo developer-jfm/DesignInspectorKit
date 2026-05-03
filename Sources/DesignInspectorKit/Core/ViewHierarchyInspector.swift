@@ -16,7 +16,7 @@ private extension NSDirectionalEdgeInsets {
 ///
 /// Use `inspect(_:)` to get a flat list of all views in the hierarchy,
 /// or `inspectSingle(_:)` to inspect a single view.
-public final class ViewHierachyInspector {
+public final class ViewHierarchyInspector {
     private let configuration: InspectorConfiguration
     
     /// Creates an inspector with the given configuration.
@@ -58,10 +58,10 @@ public final class ViewHierachyInspector {
         
         let accessibilityLabel = imageProps.accessibilityLabel ?? view.accessibilityLabel
         
-        let backgroundColorToken = view.backgroundColor.flatMap { configuration.colorTokenColorResolver?($0) }
-        let textColorToken = textProps.textColor.flatMap { configuration.colorTokenColorResolver?($0) }
-        let fontToken = textProps.font.flatMap { configuration.fontTokenColorResolver?($0) }
-        let spacingToken = layoutProps.spacing.flatMap { configuration.spacingTokenColorResolver?($0) }
+        let backgroundColorToken = view.backgroundColor.flatMap { configuration.colorTokenResolver?($0) }
+        let textColorToken = textProps.textColor.flatMap { configuration.colorTokenResolver?($0) }
+        let fontToken = textProps.font.flatMap { configuration.fontTokenResolver?($0) }
+        let spacingToken = layoutProps.spacing.flatMap { configuration.stackSpacingTokenResolver?($0) }
         let frameInWindows = view.superview?.convert(view.frame, to: nil) ?? view.frame
         
         return ViewInspectorInfo(

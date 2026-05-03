@@ -249,7 +249,7 @@ public final class InspectorOverlayViewController: UIViewController {
         
         drawConstraintVisualizations(for: view, frameInSelf: frameInSelf)
         
-        let inspector = ViewHierachyInspector(configuration: configuration)
+        let inspector = ViewHierarchyInspector(configuration: configuration)
         let info = inspector.inspectSingle(view)
         infoPanel.configure(with: info)
         infoPanel.isHidden = false

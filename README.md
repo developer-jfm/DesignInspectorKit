@@ -105,7 +105,7 @@ Sources/
     ├── DesignInspectorKit.swift                   # Main entry point (DesignInspector class)
     ├── Core/
     │   ├── DesignInspectorSwizzler.swift          # Method swizzling for auto-attach
-    │   └── ViewHierachyInspector.swift            # View hierarchy traversal & data extraction
+    │   └── ViewHierarchyInspector.swift           # View hierarchy traversal & data extraction
     ├── Models/
     │   ├── ViewInspectorInfo.swift                # Inspected view data snapshot
     │   └── InspectorConfiguration.swift           # Appearance & token resolver options

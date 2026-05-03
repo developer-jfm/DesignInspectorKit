@@ -10,7 +10,7 @@ import UIKit
 /// to every `UIViewController` when the inspector is globally enabled.
 ///
 /// Swizzles `viewDidAppear(_:)` so that each view controller receives
-/// the long-press inspector gesture on its first appearance.
+/// the two-finger tap inspector gesture on its first appearance.
 final class DesignInspectorSwizzler {
     
     static let shared = DesignInspectorSwizzler()

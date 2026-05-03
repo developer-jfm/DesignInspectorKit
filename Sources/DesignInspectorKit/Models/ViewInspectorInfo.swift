@@ -7,7 +7,7 @@
 import UIKit
 
 /// A snapshot of all inspectable properties of a `UIView` at the time of inspection.
-/// Produced by `ViewHierachyInspector` and consumed by the inspector overlay UI.
+/// Produced by `ViewHierarchyInspector` and consumed by the inspector overlay UI.
 public struct ViewInspectorInfo {
  
     // MARK: - Basic Info
