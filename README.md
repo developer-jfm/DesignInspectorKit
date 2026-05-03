@@ -83,7 +83,6 @@ The inspector panel shows the following properties for each tapped view:
 | **UIActivityIndicatorView** | Is animating |
 | **Accessibility** | Identifier, Label, Traits, Is accessibility element |
 | **Sibling Spacing** | Distance to nearest sibling above, below, left, right |
-| **Hierarchy** | Depth level, Subviews count |
 
 ## Screenshots
 
@@ -120,7 +119,7 @@ UISwitch, UISlider, UIProgressView and UIActivityIndicatorView properties.
 ---
 
 ### Spacing annotations
-Blue dashed lines show distances from the selected view to its superview edges.
+Blue dashed lines with **centered numeric labels** show distances from the selected view to its superview edges. Labels feature dark semi-transparent backgrounds with colored borders for legibility on any background.
 
 ![Spacing](docs/screenshots/07_spacing.png)
 
@@ -137,6 +136,15 @@ The inspector overlay uses a consistent color language to communicate different 
 | 🔵 **Blue (semi-transparent fill)** | Highlight overlay drawn over the currently selected view's frame |
 
 These colors can be customized via `InspectorConfiguration` (`highlightColor`, `annotationColor`).
+
+## Panel Interactions
+
+When a view is selected, the info panel provides additional interaction feedback:
+
+- **Haptic feedback** — Light impact feedback confirms view selection
+- **Swipe to dismiss** — Swipe up on the panel to close it and clear highlights
+- **Dimming overlay** — Background darkens slightly when panel is visible for better focus
+- **Close button (×)** — Tap the panel's close button or the overlay's top-right button to exit
 
 ## Example App
 
@@ -209,24 +217,6 @@ xcodebuild -scheme DesignInspectorKit -destination 'platform=iOS Simulator,name=
 ```bash
 xcodebuild test -scheme DesignInspectorKit -destination 'platform=iOS Simulator,name=iPhone 16'
 ```
-
-## Git Flow
-
-This project follows **Git Flow**:
-
-- `main` — stable releases
-- `develop` — integration branch
-- `feature/*` — new features
-- `hotfix/*` — production fixes
-- `release/*` — release preparation
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/my-feature`)
-3. Commit your changes (`git commit -am 'Add my feature'`)
-4. Push to the branch (`git push origin feature/my-feature`)
-5. Open a Pull Request targeting `develop`
 
 ## License
 
