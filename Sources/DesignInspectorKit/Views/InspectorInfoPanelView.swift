@@ -135,7 +135,7 @@ final class InspectorInfoPanelView: UIView {
     /// - Parameter info: The inspected view's property snapshot.
     func configure(with info: ViewInspectorInfo) {
         titleLabel.text = info.className
-        contentStackview.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        contentStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         
         addInfoRow(
             label: InspectorKey.frame,
