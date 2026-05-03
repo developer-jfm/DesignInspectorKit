@@ -9,7 +9,7 @@ import UIKit
 /// A snapshot of all inspectable properties of a `UIView` at the time of inspection.
 /// Produced by `ViewHierarchyInspector` and consumed by the inspector overlay UI.
 public struct ViewInspectorInfo {
- 
+
     // MARK: - Basic Info
     
     /// The class name of the inspected view (e.g. `"UILabel"`, `"UIButton"`).
