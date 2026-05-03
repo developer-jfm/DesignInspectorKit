@@ -16,6 +16,8 @@ final class InspectorInfoPanelView: UIView {
         static let spacing: CGFloat = 8
         static let labelWidth: CGFloat = 100
         static let swatchSize: CGFloat = 16
+        /// Inset between the panel's own background and the containerView, making the background visible.
+        static let panelInset: CGFloat = 6
     }
     
     private let configuration: InspectorConfiguration
@@ -24,8 +26,8 @@ final class InspectorInfoPanelView: UIView {
         let view = UIView()
         view.backgroundColor = configuration.panelBackgroundColor
         view.layer.cornerRadius = Layout.cornerRadius
-        view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOpacity = 0.2
+        view.layer.shadowColor = UIColor.systemRed.cgColor
+        view.layer.shadowOpacity = 0.6
         view.layer.shadowOffset = CGSize(width: 0, height: 4)
         view.layer.shadowRadius = 8
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -69,6 +71,9 @@ final class InspectorInfoPanelView: UIView {
     }
     
     private func setupUI() {
+        backgroundColor = configuration.annotationColor.withAlphaComponent(0.15)
+        layer.cornerRadius = Layout.cornerRadius
+        clipsToBounds = true
         addSubview(scrollView)
 
         scrollView.addSubview(containerView)
@@ -82,13 +87,12 @@ final class InspectorInfoPanelView: UIView {
             scrollView.trailingAnchor.constraint(equalTo: trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: bottomAnchor),
 
-            // containerView follows the scroll's content layout guide so it can grow taller than the frame
-            containerView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
-            containerView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
-            containerView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
-            containerView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
-            // pin width to frame layout guide to prevent horizontal scrolling
-            containerView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
+            // containerView is inset from the scroll edges, exposing the panel background
+            containerView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: Layout.panelInset),
+            containerView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor, constant: Layout.panelInset),
+            containerView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor, constant: -Layout.panelInset),
+            containerView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -Layout.panelInset),
+            containerView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor, constant: -Layout.panelInset * 2),
 
             titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: Layout.padding),
             titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Layout.padding),
