@@ -1,0 +1,89 @@
+/* General */
+"inspector.title" = "Inspector";
+"inspector.close" = "Close";
+"inspector.tap_to_inspect" = "Tap any view to inspect";
+"inspector.long_press_to_exit" = "Tap × to exit inspector";
+
+/* View Properties */
+"inspector.frame" = "Frame";
+"inspector.background" = "Background";
+"inspector.tint_color" = "Tint Color";
+"inspector.alpha" = "Alpha";
+"inspector.corner_radius" = "Corner Radius";
+"inspector.border_width" = "Border Width";
+"inspector.border_color" = "Border Color";
+
+/* Image Properties */
+"inspector.image" = "Image";
+"inspector.image_size" = "Image Size";
+"inspector.image_rendered_size" = "Rendered Size";
+"inspector.content_mode" = "Content Mode";
+
+/* Content Modes */
+"inspector.content_mode.scale_to_fill" = "Scale To Fill";
+"inspector.content_mode.scale_aspect_fit" = "Scale Aspect Fit";
+"inspector.content_mode.scale_aspect_fill" = "Scale Aspect Fill";
+"inspector.content_mode.center" = "Center";
+"inspector.content_mode.top" = "Top";
+"inspector.content_mode.bottom" = "Bottom";
+"inspector.content_mode.left" = "Left";
+"inspector.content_mode.right" = "Right";
+"inspector.content_mode.top_left" = "Top Left";
+"inspector.content_mode.top_right" = "Top Right";
+"inspector.content_mode.bottom_left" = "Bottom Left";
+"inspector.content_mode.bottom_right" = "Bottom Right";
+
+/* Text Properties */
+"inspector.text" = "Text";
+"inspector.font" = "Font";
+"inspector.text_color" = "Text Color";
+"inspector.text_alignment" = "Alignment";
+"inspector.number_of_lines" = "Lines";
+
+/* Layout Properties */
+"inspector.spacing" = "Spacing";
+"inspector.spacing_above" = "Spacing Above";
+"inspector.spacing_below" = "Spacing Below";
+"inspector.spacing_left" = "Spacing Left";
+"inspector.spacing_right" = "Spacing Right";
+"inspector.content_insets" = "Content Insets";
+"inspector.layout_margins" = "Layout Margins";
+
+/* Accessibility */
+"inspector.accessibility_id" = "Accessibility ID";
+"inspector.accessibility_label" = "Accessibility Label";
+"inspector.accessibility_traits" = "Accessibility Traits";
+
+/* Hierarchy */
+"inspector.subviews_count" = "Subviews";
+"inspector.depth" = "Depth";
+
+/* UIStackView */
+"inspector.stack_axis" = "Axis";
+"inspector.stack_distribution" = "Distribution";
+"inspector.stack_alignment" = "Alignment";
+
+/* UIScrollView */
+"inspector.scroll_content_size" = "Content Size";
+"inspector.scroll_paging" = "Paging";
+
+/* UISwitch */
+"inspector.switch_is_on" = "Is On";
+"inspector.switch_on_tint" = "On Tint";
+"inspector.switch_thumb_tint" = "Thumb Tint";
+
+/* UISlider */
+"inspector.slider_value" = "Value";
+"inspector.slider_range" = "Range";
+
+/* UIProgressView */
+"inspector.progress_value" = "Progress";
+"inspector.progress_tint" = "Progress Tint";
+
+/* UIActivityIndicatorView */
+"inspector.activity_animating" = "Animating";
+
+/* Constraints */
+"inspector.constraints" = "Constraints";
+"inspector.constraint_active" = "Active";
+"inspector.constraint_inactive" = "Inactive";
