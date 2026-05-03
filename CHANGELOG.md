@@ -30,7 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Force unwrap (`!`) in `UIColor.hexString` color space conversion
 - Documentation now clarifies that `showDesignInspector(with:)` does not include navigation bar in inspectable area
 
-## [1.0.0] - 2026-05-03
+## [1.0.0] - 2026-04
 
 ### Added
 - Initial release of DesignInspectorKit
