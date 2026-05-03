@@ -12,6 +12,15 @@ import UIKit
 @Test func hexString_transparent_returns8Chars() {
     let color = UIColor(red: 1, green: 0, blue: 0, alpha: 0.5)
     #expect(color.hexString.count == 8)
+    #expect(color.hexString.hasPrefix("FF0000"))
+}
+
+@Test func hexString_white_returnsFFFFFF() {
+    #expect(UIColor.white.hexString == "FFFFFF")
+}
+
+@Test func hexString_black_returns000000() {
+    #expect(UIColor.black.hexString == "000000")
 }
 
 @Test func initHexString_6chars_parsesCorrectly() {

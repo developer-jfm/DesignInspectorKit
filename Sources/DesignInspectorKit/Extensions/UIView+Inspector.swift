@@ -7,8 +7,7 @@
 import UIKit
 
 extension UIView {
-    
-    
+
     /// Returns a flat array of all subviews recursively. Does not include the receiver itself.
     public func allSubviews() -> [UIView] {
         var result = subviews
@@ -37,7 +36,7 @@ extension UIView {
     
     /// The frame of the view converted to the window's coordinate space.
     /// Returns the view's own frame if it has no superview.
-    public var frameInWindow: CGRect? {
+    public var frameInWindow: CGRect {
         return superview?.convert(frame, to: nil) ?? frame
     }
             
@@ -49,10 +48,8 @@ extension UIView {
         
         let siblings = superview.subviews.filter { $0 !== self && $0.frame.maxY <= frame.minY }
         
-        guard let nearestAbove = siblings.max(by: { $0.frame.maxY < $1.frame.maxY }) else { return nil}
-        
+        guard let nearestAbove = siblings.max(by: { $0.frame.maxY < $1.frame.maxY }) else { return nil }
         return frame.minY - nearestAbove.frame.maxY
-        
     }
     
     /// The vertical distance from the bottom edge of this view to the top edge
@@ -63,10 +60,8 @@ extension UIView {
         
         let siblings = superview.subviews.filter { $0 !== self && $0.frame.minY >= frame.maxY }
         
-        guard let nearestBelow = siblings.min(by: { $0.frame.minY < $1.frame.minY }) else { return nil}
-        
+        guard let nearestBelow = siblings.min(by: { $0.frame.minY < $1.frame.minY }) else { return nil }
         return nearestBelow.frame.minY - frame.maxY
-        
     }
         
     /// The horizontal distance from the left edge of this view to the right edge
@@ -77,10 +72,8 @@ extension UIView {
         
         let siblings = superview.subviews.filter { $0 !== self && $0.frame.maxX <= frame.minX }
         
-        guard let nearestLeft = siblings.max(by: { $0.frame.maxX < $1.frame.maxX }) else { return nil}
-        
+        guard let nearestLeft = siblings.max(by: { $0.frame.maxX < $1.frame.maxX }) else { return nil }
         return frame.minX - nearestLeft.frame.maxX
-        
     }
     
     /// The horizontal distance from the right edge of this view to the left edge
@@ -91,10 +84,8 @@ extension UIView {
         
         let siblings = superview.subviews.filter { $0 !== self && $0.frame.minX >= frame.maxX }
         
-        guard let nearestRight = siblings.min(by: { $0.frame.minX < $1.frame.minX }) else { return nil}
-        
+        guard let nearestRight = siblings.min(by: { $0.frame.minX < $1.frame.minX }) else { return nil }
         return nearestRight.frame.minX - frame.maxX
-        
     }
     
     /// The distances from each edge of this view to the corresponding edge of its superview.

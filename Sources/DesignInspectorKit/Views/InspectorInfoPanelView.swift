@@ -59,7 +59,7 @@ final class InspectorInfoPanelView: UIView {
         return label
     }()
     
-    private lazy var contentStackview: UIStackView = {
+    private lazy var contentStackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
         stack.spacing = Layout.spacing
@@ -94,7 +94,7 @@ final class InspectorInfoPanelView: UIView {
         scrollView.addSubview(containerView)
         containerView.addSubview(closePanelButton)
         containerView.addSubview(titleLabel)
-        containerView.addSubview(contentStackview)
+        containerView.addSubview(contentStackView)
 
         NSLayoutConstraint.activate([
             // scrollView fills the entire panel view
@@ -119,10 +119,10 @@ final class InspectorInfoPanelView: UIView {
             titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Layout.padding),
             titleLabel.trailingAnchor.constraint(equalTo: closePanelButton.leadingAnchor, constant: -Layout.spacing),
 
-            contentStackview.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Layout.spacing),
-            contentStackview.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Layout.padding),
-            contentStackview.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -Layout.padding),
-            contentStackview.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -Layout.padding),
+            contentStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Layout.spacing),
+            contentStackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Layout.padding),
+            contentStackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -Layout.padding),
+            contentStackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -Layout.padding),
         ])
     }
     
@@ -155,6 +155,10 @@ final class InspectorInfoPanelView: UIView {
             addInfoRow(label: InspectorKey.image, value: imageName)
         }
 
+        if let size = info.imageSize, size.width > 0 && size.height > 0 {
+            addInfoRow(label: InspectorKey.imageSize, value: "\(Int(size.width)) x \(Int(size.height)) pt")
+        }
+
         if let renderedSize = info.imageRenderedSize, renderedSize.width > 0 && renderedSize.height > 0 {
             addInfoRow(label: InspectorKey.imageRenderedSize, value: "\(Int(renderedSize.width)) x \(Int(renderedSize.height)) pt")
         }
@@ -178,6 +182,14 @@ final class InspectorInfoPanelView: UIView {
             addInfoRow(label: InspectorKey.font, value: fontValue)
         }
 
+        if let alignment = info.textAlignment {
+            addInfoRow(label: InspectorKey.textAlignment, value: textAlignmentName(alignment))
+        }
+
+        if let lines = info.numberOfLines {
+            addInfoRow(label: InspectorKey.numberOfLines, value: lines == 0 ? "∞" : "\(lines)")
+        }
+
         if let textColor = info.textColor, textColor != .clear {
             let colorValue: String
             if let token = info.textColorToken {
@@ -191,7 +203,7 @@ final class InspectorInfoPanelView: UIView {
         if let spacing = info.spacing {
             let spacingValue: String
             if let token = info.spacingToken {
-                spacingValue = "\(token) (\(spacing)pt)"
+                spacingValue = "\(token) (\(Int(spacing))pt)"
             } else {
                 spacingValue = "\(Int(spacing))pt"
             }
@@ -214,15 +226,19 @@ final class InspectorInfoPanelView: UIView {
             addInfoRow(label: InspectorKey.accessibilityLabel, value: accessibilityLabel)
         }
 
+        if info.isAccessibilityElement {
+            addInfoRow(label: InspectorKey.accessibilityTraits, value: accessibilityTraitsDescription(info.accessibilityTraits))
+        }
+
         if info.borderWidth > 0 {
             addInfoRow(label: InspectorKey.borderWidth, value: "\(info.borderWidth)pt")
         }
 
-        if let borderColor = info.borderColor {
+        if info.borderWidth > 0, let borderColor = info.borderColor {
             addInfoRow(label: InspectorKey.borderColor, value: borderColor.hexString, color: borderColor)
         }
 
-        if let tintColor = info.tintColor {
+        if let tintColor = info.tintColor, info.isControl || info.isImageView {
             addInfoRow(label: InspectorKey.tintColor, value: tintColor.hexString, color: tintColor)
         }
 
@@ -303,7 +319,6 @@ final class InspectorInfoPanelView: UIView {
                 addInfoRow(label: InspectorKey.spacingRight, value: "\(Int(rightSpacing))pt")
             }
         }
-
     }
     
     /// Appends a labeled row to the content stack.
@@ -367,8 +382,9 @@ final class InspectorInfoPanelView: UIView {
             NSLayoutConstraint.activate([
                 labelView.leadingAnchor.constraint(equalTo: rowView.leadingAnchor),
                 labelView.topAnchor.constraint(equalTo: rowView.topAnchor),
+                labelView.bottomAnchor.constraint(equalTo: rowView.bottomAnchor),
                 labelView.widthAnchor.constraint(greaterThanOrEqualToConstant: Layout.labelWidth),
-                
+
                 valueView.leadingAnchor.constraint(equalTo: labelView.trailingAnchor, constant: Layout.spacing),
                 valueView.topAnchor.constraint(equalTo: rowView.topAnchor),
                 valueView.trailingAnchor.constraint(equalTo: rowView.trailingAnchor),
@@ -376,7 +392,7 @@ final class InspectorInfoPanelView: UIView {
             ])
         }
         
-        contentStackview.addArrangedSubview(rowView)
+        contentStackView.addArrangedSubview(rowView)
     }
     
     /// Returns a human-readable string for the given `UIStackView.Distribution`.
@@ -406,6 +422,41 @@ final class InspectorInfoPanelView: UIView {
         }
     }
     
+    /// Returns a human-readable string for the given `NSTextAlignment`.
+    private func textAlignmentName(_ alignment: NSTextAlignment) -> String {
+        switch alignment {
+        case .left:      return "Left"
+        case .center:    return "Center"
+        case .right:     return "Right"
+        case .justified: return "Justified"
+        case .natural:   return "Natural"
+        @unknown default: return "Unknown"
+        }
+    }
+
+    /// Returns a human-readable comma-separated description of `UIAccessibilityTraits`.
+    private func accessibilityTraitsDescription(_ traits: UIAccessibilityTraits) -> String {
+        var names: [String] = []
+        if traits.contains(.button)            { names.append("Button") }
+        if traits.contains(.link)              { names.append("Link") }
+        if traits.contains(.image)             { names.append("Image") }
+        if traits.contains(.header)            { names.append("Header") }
+        if traits.contains(.selected)          { names.append("Selected") }
+        if traits.contains(.notEnabled)        { names.append("Disabled") }
+        if traits.contains(.adjustable)        { names.append("Adjustable") }
+        if traits.contains(.staticText)        { names.append("Static Text") }
+        if traits.contains(.searchField)       { names.append("Search Field") }
+        if traits.contains(.tabBar)            { names.append("Tab Bar") }
+        if traits.contains(.summaryElement)    { names.append("Summary") }
+        if traits.contains(.updatesFrequently) { names.append("Updates Frequently") }
+        if traits.contains(.causesPageTurn)    { names.append("Page Turn") }
+        if traits.contains(.allowsDirectInteraction) { names.append("Direct Interaction") }
+        if traits.contains(.playsSound)        { names.append("Plays Sound") }
+        if traits.contains(.startsMediaSession){ names.append("Starts Media") }
+        if traits.contains(.keyboardKey)       { names.append("Keyboard Key") }
+        return names.isEmpty ? "None" : names.joined(separator: ", ")
+    }
+
     /// Returns a human-readable string for the given `UIView.ContentMode`.
     private func contentModeName(_ mode: UIView.ContentMode) -> String {
         switch mode {

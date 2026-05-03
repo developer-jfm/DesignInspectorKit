@@ -16,7 +16,7 @@ public struct ViewInspectorInfo {
     public let className: String
     /// The frame of the view in its superview's coordinate space.
     public let frame: CGRect
-    /// The frame of the view converted to the window's coordinate space.
+    /// The frame of the view converted to the window's coordinate space. Equals `frame` if the view has no superview.
     public let frameInWindow: CGRect
     /// The depth level of the view in the hierarchy (root = 0).
     public let depth: Int
@@ -124,12 +124,19 @@ public struct ViewInspectorInfo {
     public let activityIsAnimating: Bool?
     
     // MARK: - Hierarchy
-    
+
     /// The number of direct subviews.
     public let subviewsCount: Int
     /// A weak reference to the original inspected view.
     public weak var view: UIView?
-    
+
+    // MARK: - Convenience
+
+    /// Whether the inspected view is a `UIControl` (UIButton, UISwitch, UISlider, etc.).
+    public var isControl: Bool { view is UIControl }
+    /// Whether the inspected view is a `UIImageView`.
+    public var isImageView: Bool { view is UIImageView }
+
 }
 
 /// A simplified, serializable representation of a single `NSLayoutConstraint`.
