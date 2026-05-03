@@ -262,7 +262,7 @@ public final class InspectorOverlayViewController: UIViewController {
     ///   - view: The selected view.
     ///   - frameInSelf: The view's frame converted to the overlay's coordinate space.
     private func drawConstraintVisualizations(for view: UIView, frameInSelf: CGRect) {
-        let constraintColor = configuration.annotationColor
+        let constraintColor = UIColor.systemBlue
         
         guard let superView = view.superview else { return }
         let superFrameInSelf = superView.convert(superView.bounds, to: self.view)

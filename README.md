@@ -53,10 +53,10 @@ DesignInspector.shared.inspect(viewController: self)
 ```swift
 var config = InspectorConfiguration.default
 config.highlightColor = UIColor.systemGreen.withAlphaComponent(0.3)
-config.colorTokenColorResolver = { color in
+config.colorTokenResolver = { color in
     return DesignTokens.name(for: color)
 }
-config.fontTokenColorResolver = { font in
+config.fontTokenResolver = { font in
     return DesignTokens.name(for: font)
 }
 config.spacingTokenResolver = { spacing in
@@ -84,6 +84,18 @@ The inspector panel shows the following properties for each tapped view:
 | **Accessibility** | Identifier, Label, Traits, Is accessibility element |
 | **Sibling Spacing** | Distance to nearest sibling above, below, left, right |
 | **Hierarchy** | Depth level, Subviews count |
+
+## Visual Indicators
+
+The inspector overlay uses a consistent color language to communicate different types of information at a glance:
+
+| Color | Meaning |
+|-------|---------|
+| 🔵 **Blue** | Spacing annotations — dashed lines with numeric labels showing the distance from the selected view's edges to its superview's edges |
+| 🔴 **Red** | Info panel — the scrollable property panel at the bottom of the screen uses a red-tinted background and red shadow to clearly identify it as the inspector UI, distinct from the inspected content |
+| 🔵 **Blue (semi-transparent fill)** | Highlight overlay drawn over the currently selected view's frame |
+
+These colors can be customized via `InspectorConfiguration` (`highlightColor`, `annotationColor`).
 
 ## Example App
 
