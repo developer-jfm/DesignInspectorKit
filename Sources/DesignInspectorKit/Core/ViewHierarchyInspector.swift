@@ -191,11 +191,23 @@ public final class ViewHierarchyInspector {
         
         props.name = props.token
         ?? image.accessibilityIdentifier?.nilIfEmpty
+        ?? imageName(from: image)
         ?? describeImage(image)
-        
+
         return props
     }
-    
+
+    /// Attempts to recover the original asset name of a `UIImage`.
+    /// Tries SF Symbol name first, then the internal asset catalog name via `UIImageAsset`.
+    private func imageName(from image: UIImage) -> String? {
+        if let symbolName = image.accessibilityLabel, !symbolName.isEmpty {
+            return symbolName
+        }
+        return image.imageAsset.flatMap { asset in
+            (asset.value(forKey: "assetName") as? String)?.nilIfEmpty
+        }
+    }
+
     private func describeImage(_ image: UIImage) -> String {
         let scale = image.scale
         return "Image(\(Int(image.size.width))x\(Int(image.size.height))@\(scale)x)"
