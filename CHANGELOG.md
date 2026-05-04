@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-05
+
+### Fixed
+- Image name was not displayed in the inspector panel for `UIImageView` elements — now resolved via SF Symbol name and `UIImageAsset` catalog name before falling back to generic dimensions
+
 ### Added
 - Haptic feedback (light impact) when selecting a view for inspection
 - Swipe-to-dismiss gesture on the info panel (swipe up to close)
