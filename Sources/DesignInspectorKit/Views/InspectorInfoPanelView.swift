@@ -246,6 +246,23 @@ final class InspectorInfoPanelView: UIView {
             addInfoRow(label: InspectorKey.tintColor, value: tintColor.hexString, color: tintColor)
         }
 
+        // MARK: UISearchBar
+        if let placeholder = info.searchBarPlaceholder {
+            addInfoRow(label: InspectorKey.searchBarPlaceholder, value: "\"\(placeholder)\"")
+        }
+        if let searchText = info.searchBarText {
+            addInfoRow(label: InspectorKey.searchBarText, value: "\"\(searchText)\"")
+        }
+        if let style = info.searchBarStyle {
+            addInfoRow(label: InspectorKey.searchBarStyle, value: searchBarStyleName(style))
+        }
+        if let showsCancel = info.searchBarShowsCancelButton {
+            addInfoRow(label: InspectorKey.searchBarCancelButton, value: showsCancel ? "Visible" : "Hidden")
+        }
+        if let tint = info.searchBarTintColor {
+            addInfoRow(label: InspectorKey.searchBarTintColor, value: tint.hexString, color: tint)
+        }
+
         // MARK: UIStackView
         if let axis = info.stackAxis {
             addInfoRow(label: InspectorKey.stackAxis, value: axis == .horizontal ? "Horizontal" : "Vertical")
@@ -479,6 +496,16 @@ final class InspectorInfoPanelView: UIView {
         case .bottom: return "Bottom"
         @unknown default:
             return "Unknown"
+        }
+    }
+
+    /// Returns a human-readable string for the given `UISearchBar.Style`.
+    private func searchBarStyleName(_ style: UISearchBar.Style) -> String {
+        switch style {
+        case .default:   return "Default"
+        case .prominent: return "Prominent"
+        case .minimal:   return "Minimal"
+        @unknown default: return "Unknown"
         }
     }
 }
