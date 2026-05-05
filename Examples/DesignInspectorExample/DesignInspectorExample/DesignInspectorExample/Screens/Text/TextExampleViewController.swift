@@ -59,7 +59,13 @@ final class TextExampleViewController: UIViewController {
         primaryButton.backgroundColor = .systemBlue
         primaryButton.setTitleColor(.white, for: .normal)
         primaryButton.layer.cornerRadius = 12
-        primaryButton.contentEdgeInsets = UIEdgeInsets(top: 12, left: 24, bottom: 12, right: 24)
+        if #available(iOS 15.0, *) {
+            var config = UIButton.Configuration.filled()
+            config.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 24, bottom: 12, trailing: 24)
+            primaryButton.configuration = config
+        } else {
+            primaryButton.contentEdgeInsets = UIEdgeInsets(top: 12, left: 24, bottom: 12, right: 24)
+        }
         primaryButton.accessibilityIdentifier = "primary_button"
         primaryButton.accessibilityLabel = "Primary action button"
 
@@ -71,7 +77,13 @@ final class TextExampleViewController: UIViewController {
         secondaryButton.layer.borderWidth = 1
         secondaryButton.layer.borderColor = UIColor.systemBlue.cgColor
         secondaryButton.layer.cornerRadius = 8
-        secondaryButton.contentEdgeInsets = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16)
+        if #available(iOS 15.0, *) {
+            var config = UIButton.Configuration.plain()
+            config.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
+            secondaryButton.configuration = config
+        } else {
+            secondaryButton.contentEdgeInsets = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16)
+        }
 
         // MARK: UILabel — badge with fixed size and clipped corners
         let badgeLabel = UILabel()

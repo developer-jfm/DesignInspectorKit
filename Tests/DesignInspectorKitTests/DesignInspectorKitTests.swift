@@ -356,6 +356,38 @@ import UIKit
     #expect(info.tintColor != nil)
 }
 
+// MARK: - UIImageView inspection
+
+@Test @MainActor func inspector_imageView_extractsSFSymbolName() {
+    let imageView = UIImageView(image: UIImage(systemName: "checkmark.circle"))
+    let inspector = ViewHierarchyInspector(configuration: .default)
+    let info = inspector.inspectSingle(imageView)
+    #expect(info.imageName == "checkmark.circle")
+}
+
+@Test @MainActor func inspector_imageView_extractsImageSize() {
+    let imageView = UIImageView(image: UIImage(systemName: "star"))
+    let inspector = ViewHierarchyInspector(configuration: .default)
+    let info = inspector.inspectSingle(imageView)
+    #expect(info.imageSize != nil)
+}
+
+@Test @MainActor func inspector_imageView_extractsContentMode() {
+    let imageView = UIImageView(image: UIImage(systemName: "star"))
+    imageView.contentMode = .scaleAspectFit
+    let inspector = ViewHierarchyInspector(configuration: .default)
+    let info = inspector.inspectSingle(imageView)
+    #expect(info.contentMode == .scaleAspectFit)
+}
+
+@Test @MainActor func inspector_plainView_hasNoImageName() {
+    let view = UIView(frame: .zero)
+    let inspector = ViewHierarchyInspector(configuration: .default)
+    let info = inspector.inspectSingle(view)
+    #expect(info.imageName == nil)
+    #expect(info.imageSize == nil)
+}
+
 // MARK: - Non-UIView does not bleed into wrong component
 
 @Test @MainActor func inspector_plainView_hasNoStackAxis() {
