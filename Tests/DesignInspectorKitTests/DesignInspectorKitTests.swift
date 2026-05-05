@@ -399,3 +399,56 @@ import UIKit
     #expect(info.sliderValue == nil)
     #expect(info.progressValue == nil)
 }
+
+// MARK: - UISearchBar inspection
+
+@Test @MainActor func inspector_searchBar_extractsPlaceholder() {
+    let searchBar = UISearchBar()
+    searchBar.placeholder = "Search items..."
+    let inspector = ViewHierarchyInspector(configuration: .default)
+    let info = inspector.inspectSingle(searchBar)
+    #expect(info.searchBarPlaceholder == "Search items...")
+}
+
+@Test @MainActor func inspector_searchBar_extractsText() {
+    let searchBar = UISearchBar()
+    searchBar.text = "DesignInspector"
+    let inspector = ViewHierarchyInspector(configuration: .default)
+    let info = inspector.inspectSingle(searchBar)
+    #expect(info.searchBarText == "DesignInspector")
+}
+
+@Test @MainActor func inspector_searchBar_extractsStyle() {
+    let searchBar = UISearchBar()
+    searchBar.searchBarStyle = .minimal
+    let inspector = ViewHierarchyInspector(configuration: .default)
+    let info = inspector.inspectSingle(searchBar)
+    #expect(info.searchBarStyle == .minimal)
+}
+
+@Test @MainActor func inspector_searchBar_extractsShowsCancelButton() {
+    let searchBar = UISearchBar()
+    searchBar.showsCancelButton = true
+    let inspector = ViewHierarchyInspector(configuration: .default)
+    let info = inspector.inspectSingle(searchBar)
+    #expect(info.searchBarShowsCancelButton == true)
+}
+
+@Test @MainActor func inspector_searchBar_extractsBarTintColor() {
+    let searchBar = UISearchBar()
+    searchBar.barTintColor = .systemPurple
+    let inspector = ViewHierarchyInspector(configuration: .default)
+    let info = inspector.inspectSingle(searchBar)
+    #expect(info.searchBarTintColor != nil)
+}
+
+@Test @MainActor func inspector_plainView_hasNoSearchBarProperties() {
+    let view = UIView(frame: .zero)
+    let inspector = ViewHierarchyInspector(configuration: .default)
+    let info = inspector.inspectSingle(view)
+    #expect(info.searchBarPlaceholder == nil)
+    #expect(info.searchBarText == nil)
+    #expect(info.searchBarStyle == nil)
+    #expect(info.searchBarShowsCancelButton == nil)
+    #expect(info.searchBarTintColor == nil)
+}
