@@ -91,6 +91,13 @@ public enum InspectorKey {
     // MARK: - UIActivityIndicatorView
     public static let activityAnimating     = "inspector.activity_animating".localized
 
+    // MARK: - UISearchBar
+    public static let searchBarPlaceholder  = "inspector.search_placeholder".localized
+    public static let searchBarText         = "inspector.search_text".localized
+    public static let searchBarStyle        = "inspector.search_style".localized
+    public static let searchBarCancelButton = "inspector.search_cancel_button".localized
+    public static let searchBarTintColor    = "inspector.search_tint_color".localized
+
     // MARK: - Constraints
     public static let constraints           = "inspector.constraints".localized
     public static let constraintActive      = "inspector.constraint_active".localized

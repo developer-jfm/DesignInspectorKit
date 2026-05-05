@@ -83,6 +83,13 @@
 /* UIActivityIndicatorView */
 "inspector.activity_animating" = "Animando";
 
+/* UISearchBar */
+"inspector.search_placeholder" = "Placeholder";
+"inspector.search_text" = "Texto de Busca";
+"inspector.search_style" = "Estilo";
+"inspector.search_cancel_button" = "Botão Cancelar";
+"inspector.search_tint_color" = "Cor de Tint";
+
 /* Restrições */
 "inspector.constraints" = "Restrições";
 "inspector.constraint_active" = "Ativa";

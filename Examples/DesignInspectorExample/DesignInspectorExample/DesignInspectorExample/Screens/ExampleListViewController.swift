@@ -52,6 +52,11 @@ final class ExampleListViewController: UITableViewController {
             subtitle: "identifiers, labels, traits",
             maker: { AccessibilityExampleViewController() }
         ),
+        Example(
+            title: "UISearchBar",
+            subtitle: "Placeholder, style, cancel button, tint",
+            maker: { SearchBarExampleViewController() }
+        ),
     ]
 
     // MARK: - Lifecycle

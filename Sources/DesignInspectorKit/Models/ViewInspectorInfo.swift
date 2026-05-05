@@ -123,6 +123,19 @@ public struct ViewInspectorInfo {
     /// Whether an activity indicator is currently animating, if applicable.
     public let activityIsAnimating: Bool?
     
+    // MARK: - UISearchBar
+
+    /// The placeholder text of the search bar, if applicable.
+    public let searchBarPlaceholder: String?
+    /// The current text in the search bar, if applicable.
+    public let searchBarText: String?
+    /// The style of the search bar, if applicable.
+    public let searchBarStyle: UISearchBar.Style?
+    /// Whether the cancel button is shown, if applicable.
+    public let searchBarShowsCancelButton: Bool?
+    /// The bar tint color of the search bar, if applicable.
+    public let searchBarTintColor: UIColor?
+
     // MARK: - Hierarchy
 
     /// The number of direct subviews.

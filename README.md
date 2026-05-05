@@ -16,7 +16,7 @@ Add to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/developer-jfm/DesignInspectorKit.git", from: "1.0.0")
+    .package(url: "https://github.com/developer-jfm/DesignInspectorKit.git", from: "1.2.0")
 ]
 ```
 
@@ -81,6 +81,7 @@ The inspector panel shows the following properties for each tapped view:
 | **UISlider** | Current value, Min/Max range |
 | **UIProgressView** | Progress %, Progress tint color |
 | **UIActivityIndicatorView** | Is animating |
+| **UISearchBar** | Placeholder, Search text, Style, Cancel button visibility, Bar tint color |
 | **Accessibility** | Identifier, Label, Traits, Is accessibility element |
 | **Sibling Spacing** | Distance to nearest sibling above, below, left, right |
 
@@ -156,6 +157,16 @@ Examples/DesignInspectorExample/
     └── DesignInspectorExample.xcodeproj
 ```
 
+The example app includes dedicated screens for:
+
+- **UILabel & UIButton** — text, font, color, corner radius
+- **UIImageView** — image name (SF Symbol + asset catalog), size, content mode
+- **UIStackView** — axis, distribution, alignment, spacing
+- **UIScrollView** — content size, insets, paging
+- **Controls** — UISwitch, UISlider, UIProgressView, UIActivityIndicatorView
+- **Accessibility** — identifiers, labels, traits
+- **UISearchBar** — placeholder, style, cancel button, tint color
+
 See [`Examples/DesignInspectorExample/README.md`](Examples/DesignInspectorExample/README.md) for step-by-step instructions to open and run it.
 
 ## Project Structure
@@ -184,7 +195,7 @@ Sources/
         └── es.lproj/Localizable.strings
 Tests/
 └── DesignInspectorKitTests/
-    └── DesignInspectorKitTests.swift              # Unit tests (20 test cases)
+    └── DesignInspectorKitTests.swift              # Unit tests (30 test cases)
 ```
 
 ## Localization

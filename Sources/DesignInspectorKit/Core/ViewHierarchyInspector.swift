@@ -54,6 +54,7 @@ public final class ViewHierarchyInspector {
         let imageProps = extractImageProperties(from: view)
         let layoutProps = extractLayoutProperties(from: view)
         let controlProps = extractControlState(from: view)
+        let searchBarProps = extractSearchBarProperties(from: view)
         let borderColor = extractBorderColor(from: view)
         
         let accessibilityLabel = imageProps.accessibilityLabel ?? view.accessibilityLabel
@@ -120,6 +121,11 @@ public final class ViewHierarchyInspector {
             progressValue: controlProps.progressValue,
             progressTintColor: controlProps.progressTintColor,
             activityIsAnimating: controlProps.activityIsAnimating,
+            searchBarPlaceholder: searchBarProps.placeholder,
+            searchBarText: searchBarProps.text,
+            searchBarStyle: searchBarProps.style,
+            searchBarShowsCancelButton: searchBarProps.showsCancelButton,
+            searchBarTintColor: searchBarProps.barTintColor,
             subviewsCount: view.subviews.count,
             view: view)
     }
@@ -190,6 +196,7 @@ public final class ViewHierarchyInspector {
         props.accessibilityLabel = configuration.imageAccessibilityLabelResolver?(image) ?? imageView.accessibilityLabel?.nilIfEmpty
         
         props.name = props.token
+        ?? imageView.accessibilityIdentifier?.nilIfEmpty
         ?? image.accessibilityIdentifier?.nilIfEmpty
         ?? imageName(from: image)
         ?? describeImage(image)
@@ -221,6 +228,25 @@ public final class ViewHierarchyInspector {
         return image.imageAsset.flatMap { asset in
             (asset.value(forKey: "assetName") as? String)?.nilIfEmpty
         }
+    }
+
+    private struct SearchBarProperties {
+        var placeholder: String?
+        var text: String?
+        var style: UISearchBar.Style?
+        var showsCancelButton: Bool?
+        var barTintColor: UIColor?
+    }
+
+    private func extractSearchBarProperties(from view: UIView) -> SearchBarProperties {
+        var props = SearchBarProperties()
+        guard let searchBar = view as? UISearchBar else { return props }
+        props.placeholder = searchBar.placeholder?.nilIfEmpty
+        props.text = searchBar.text?.nilIfEmpty
+        props.style = searchBar.searchBarStyle
+        props.showsCancelButton = searchBar.showsCancelButton
+        props.barTintColor = searchBar.barTintColor
+        return props
     }
 
     private func describeImage(_ image: UIImage) -> String {
