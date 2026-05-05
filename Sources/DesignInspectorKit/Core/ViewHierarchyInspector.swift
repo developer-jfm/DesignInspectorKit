@@ -196,6 +196,7 @@ public final class ViewHierarchyInspector {
         props.accessibilityLabel = configuration.imageAccessibilityLabelResolver?(image) ?? imageView.accessibilityLabel?.nilIfEmpty
         
         props.name = props.token
+        ?? imageView.accessibilityIdentifier?.nilIfEmpty
         ?? image.accessibilityIdentifier?.nilIfEmpty
         ?? imageName(from: image)
         ?? describeImage(image)
@@ -224,8 +225,6 @@ public final class ViewHierarchyInspector {
                 if !name.isEmpty { return name }
             }
         }
-        // Anonymous image (created programmatically)
-        if desc.contains("anonymous") { return "anonymous" }
         return image.imageAsset.flatMap { asset in
             (asset.value(forKey: "assetName") as? String)?.nilIfEmpty
         }
