@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-05
+
+### Fixed
+- Image name now correctly extracted from `UIImage.description` for SF Symbols and asset catalog images
+- Replaced deprecated `contentEdgeInsets` with `UIButton.Configuration` on iOS 15+
+
+### Tests
+- Added 4 unit tests for `UIImageView` inspection: SF Symbol name, image size, content mode, and isolation
+
 ## [1.1.0] - 2026-05
 
 ### Fixed
