@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-05
+
+### Added
+- `UISearchBar` inspection: placeholder, search text, style, cancel button visibility, bar tint color
+- `SearchBarExampleViewController` in example app with 4 search bar variations
+- 6 unit tests for `UISearchBar` inspection
+
+### Fixed
+- `imageView.accessibilityIdentifier` now takes priority over `image.accessibilityIdentifier` in name resolution
+
 ## [1.2.0] - 2026-05
 
 ### Fixed
