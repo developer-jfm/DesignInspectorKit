@@ -198,10 +198,25 @@ public final class ViewHierarchyInspector {
     }
 
     /// Attempts to recover the original asset name of a `UIImage`.
-    /// Tries SF Symbol name first, then the internal asset catalog name via `UIImageAsset`.
+    /// Parses the image's `description` string which contains the asset/symbol name at runtime.
     private func imageName(from image: UIImage) -> String? {
-        if let symbolName = image.accessibilityLabel, !symbolName.isEmpty {
-            return symbolName
+        let desc = image.description
+        // SF Symbol format: "symbol(system: checkmark.seal.fill)"
+        if let range = desc.range(of: "symbol\\(system: ([^)]+)\\)", options: .regularExpression) {
+            let match = String(desc[range])
+            let name = match
+                .replacingOccurrences(of: "symbol(system: ", with: "")
+                .replacingOccurrences(of: ")", with: "")
+                .trimmingCharacters(in: .whitespaces)
+            if !name.isEmpty { return name }
+        }
+        // Asset catalog format: "named(system: MyImage)" or "named: MyImage"
+        if let range = desc.range(of: "named\\(?[^:]*: ([^,>)]+)", options: .regularExpression) {
+            let match = String(desc[range])
+            if let colonRange = match.range(of: ": ") {
+                let name = String(match[colonRange.upperBound...]).trimmingCharacters(in: .whitespaces)
+                if !name.isEmpty { return name }
+            }
         }
         return image.imageAsset.flatMap { asset in
             (asset.value(forKey: "assetName") as? String)?.nilIfEmpty
