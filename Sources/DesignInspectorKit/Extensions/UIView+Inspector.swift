@@ -19,18 +19,59 @@ extension UIView {
     
     /// Returns the deepest subview that contains the given point in the receiver's coordinate space.
     /// Traverses subviews in reverse order (front to back) to match the visual hit-test order.
+    /// Skips hidden, zero-alpha, and clipped-out views to match UIKit's native hit-test behaviour.
     /// - Parameter point: The point in the receiver's coordinate space.
     /// - Returns: The deepest subview containing the point, or `self` if no subview matches.
     public func deepestView(at point: CGPoint) -> UIView? {
-        guard bounds.contains(point) else { return nil }
-        
+        guard !isHidden, alpha > 0.01, bounds.contains(point) else { return nil }
+
         for subview in subviews.reversed() {
+            guard !subview.isHidden, subview.alpha > 0.01 else { continue }
             let convertedPoint = convert(point, to: subview)
             if let found = subview.deepestView(at: convertedPoint) {
                 return found
             }
         }
-        
+
+        return self
+    }
+
+    /// Returns `true` if this view is an internal UIKit private class that should be skipped during inspection.
+    private var isSystemPrivateView: Bool {
+        let className = String(describing: type(of: self))
+        let privateClasses = [
+            "UITouchPassthroughView",
+            "UIDropShadowView",
+            "UITransitionView",
+            "UILayoutContainerView",
+            "UINavigationTransitionView",
+            "_UIParallaxDimmingView",
+            "_UIBarBackground",
+            "UIVisualEffectView",
+            "_UISystemBackgroundView",
+        ]
+        return privateClasses.contains(className) || className.hasPrefix("_UI")
+    }
+
+    /// Returns the deepest inspectable subview whose frame (converted to window coordinates)
+    /// contains the given window-space point.
+    /// Unlike `deepestView(at:)` and `hitTest(_:with:)`, this method ignores `clipsToBounds`
+    /// and `isUserInteractionEnabled`, allowing it to penetrate into `UITableViewCell`,
+    /// `UIListContentView`, and other containers that block standard hit-testing.
+    /// Skips internal UIKit private views (e.g. `UITouchPassthroughView`).
+    /// - Parameter windowPoint: The point in the window's coordinate space.
+    /// - Returns: The deepest subview whose window frame contains the point, or `nil`.
+    public func deepestInspectableView(atWindowPoint windowPoint: CGPoint) -> UIView? {
+        guard !isHidden, alpha > 0.01 else { return nil }
+        guard frameInWindow.contains(windowPoint) else { return nil }
+        guard !isSystemPrivateView else { return nil }
+
+        for subview in subviews.reversed() {
+            if let found = subview.deepestInspectableView(atWindowPoint: windowPoint) {
+                return found
+            }
+        }
+
         return self
     }
     

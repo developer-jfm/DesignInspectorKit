@@ -232,20 +232,16 @@ public final class InspectorOverlayViewController: UIViewController {
     
     @objc private func handleTap(_ gesture: UITapGestureRecognizer) {
         guard !isClosing else { return }
-        let location = gesture.location(in: view)
+        let windowPoint = gesture.location(in: view.window)
 
-        if let navBar = navigationBar {
-            let locationInNavBar = view.convert(location, to: navBar)
-            if navBar.bounds.contains(locationInNavBar),
-               let tappedView = navBar.deepestView(at: locationInNavBar) {
-                selectView(tappedView)
-                return
-            }
+        if let navBar = navigationBar,
+           let found = navBar.deepestInspectableView(atWindowPoint: windowPoint) {
+            selectView(found)
+            return
         }
 
-        let locationInTarget = view.convert(location, to: targetView)
-        if let tappedView = targetView.deepestView(at: locationInTarget) {
-            selectView(tappedView)
+        if let found = targetView.deepestInspectableView(atWindowPoint: windowPoint) {
+            selectView(found)
         }
     }
 
