@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-05
+
+### Added
+- `deepestInspectableView(atWindowPoint:)` — new window-space frame traversal that penetrates `UITableViewCell`, `UIListContentView`, and other containers that block standard hit-testing
+- `UITableViewExample` screen with 12 cells containing SF Symbol image and label
+
+### Fixed
+- `UIImageView` and `UILabel` inside `UITableViewCell` are now inspectable on iOS 26
+- `UISearchBar` subviews (`UITextField`, search icon) are now inspectable on iOS 26
+- Internal UIKit private views (`UITouchPassthroughView`, `UISearchBarBackground`, `_UI*`) are skipped as inspection results but their subviews are still traversed
+
 ## [1.3.0] - 2026-05
 
 ### Added
