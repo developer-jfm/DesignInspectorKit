@@ -82,11 +82,15 @@ final class ExampleListViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         let example = examples[indexPath.row]
 
-        // Use the default content configuration to show title + subtitle.
-        var config = cell.defaultContentConfiguration()
-        config.text = example.title
-        config.secondaryText = example.subtitle
-        cell.contentConfiguration = config
+        if #available(iOS 14.0, *) {
+            var config = cell.defaultContentConfiguration()
+            config.text = example.title
+            config.secondaryText = example.subtitle
+            cell.contentConfiguration = config
+        } else {
+            cell.textLabel?.text = example.title
+            cell.detailTextLabel?.text = example.subtitle
+        }
         cell.accessoryType = .disclosureIndicator
         return cell
     }
@@ -98,5 +102,16 @@ final class ExampleListViewController: UITableViewController {
         // Instantiate and push the selected example view controller.
         let vc = examples[indexPath.row].maker()
         navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+// MARK: - SubtitleCell
+
+private final class SubtitleCell: UITableViewCell {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
+    }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
