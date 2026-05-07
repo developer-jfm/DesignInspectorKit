@@ -1,5 +1,5 @@
-import UIKit
 import Combine
+import UIKit
 
 /// Manages the inspector UI state following the MVVM pattern.
 ///
@@ -48,21 +48,12 @@ public final class InspectorViewModel {
     /// Called when the user taps at `windowPoint` within the overlay.
     /// `overlayView` is used as the coordinate space for frame conversion.
     public func onTap(in root: UIView, navigationBar: UINavigationBar? = nil, at windowPoint: CGPoint, overlayView: UIView) {
-        let found: UIView?
-
-        if #available(iOS 19.0, *) {
-            found = navigationBar?.deepestInspectableView(atWindowPoint: windowPoint)
-                ?? repository.findView(in: root, atWindowPoint: windowPoint)
-        } else {
-            if let navBar = navigationBar {
-                let p = overlayView.convert(windowPoint, to: navBar)
-                found = navBar.deepestView(at: p) ?? repository.findView(in: root, atWindowPoint: windowPoint)
-            } else {
-                found = repository.findView(in: root, atWindowPoint: windowPoint)
-            }
-        }
-
-        guard let view = found else { return }
+        guard let view = repository.findView(
+            in: root,
+            navigationBar: navigationBar,
+            atWindowPoint: windowPoint,
+            overlayView: overlayView
+        ) else { return }
 
         let frameInOverlay = repository.frame(of: view, in: overlayView)
         let superviewFrame = view.superview.map { repository.frame(of: $0, in: overlayView) }

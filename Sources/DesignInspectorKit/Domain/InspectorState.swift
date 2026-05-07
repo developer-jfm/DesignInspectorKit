@@ -14,22 +14,20 @@ public enum InspectorState: Equatable {
 
     /// A view has been tapped and its info is ready to display.
     case selected(InspectorSelection)
-
-    public static func == (lhs: InspectorState, rhs: InspectorState) -> Bool {
-        switch (lhs, rhs) {
-        case (.idle, .idle), (.active, .active): return true
-        case (.selected(let a), .selected(let b)): return a.info.className == b.info.className
-        default: return false
-        }
-    }
 }
 
 /// The data associated with a selected view.
-public struct InspectorSelection {
+public struct InspectorSelection: Equatable {
     /// The frame of the selected view in the overlay's coordinate space.
     public let frameInOverlay: CGRect
     /// The frame of the selected view's superview in the overlay's coordinate space. `nil` if no superview.
     public let superviewFrameInOverlay: CGRect?
     /// The inspected properties of the selected view.
     public let info: ViewInspectorInfo
+
+    public static func == (lhs: InspectorSelection, rhs: InspectorSelection) -> Bool {
+        lhs.frameInOverlay == rhs.frameInOverlay &&
+        lhs.superviewFrameInOverlay == rhs.superviewFrameInOverlay &&
+        lhs.info.className == rhs.info.className
+    }
 }

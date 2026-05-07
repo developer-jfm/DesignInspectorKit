@@ -7,7 +7,9 @@ import UIKit
 public protocol InspectorRepository {
 
     /// Returns the deepest inspectable view at the given window-space point within `root`.
-    func findView(in root: UIView, atWindowPoint point: CGPoint) -> UIView?
+    /// Optionally checks `navigationBar` first (checked before `root`).
+    /// `overlayView` is used for coordinate conversion on iOS < 19.
+    func findView(in root: UIView, navigationBar: UINavigationBar?, atWindowPoint point: CGPoint, overlayView: UIView) -> UIView?
 
     /// Returns the frame of `view` converted to `coordinateSpace`.
     func frame(of view: UIView, in coordinateSpace: UIView) -> CGRect

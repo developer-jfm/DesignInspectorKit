@@ -452,3 +452,60 @@ import UIKit
     #expect(info.searchBarShowsCancelButton == nil)
     #expect(info.searchBarTintColor == nil)
 }
+
+// MARK: - InspectorState
+
+@Test func inspectorState_idle_equatable() {
+    #expect(InspectorState.idle == InspectorState.idle)
+}
+
+@Test func inspectorState_active_equatable() {
+    #expect(InspectorState.active == InspectorState.active)
+}
+
+@Test func inspectorState_idle_notEqualToActive() {
+    #expect(InspectorState.idle != InspectorState.active)
+}
+
+// MARK: - InspectorViewModel
+
+@Test @MainActor func viewModel_initialState_isIdle() {
+    let vm = InspectorViewModel(configuration: .default)
+    #expect(vm.state == .idle)
+    #expect(vm.isActive == false)
+}
+
+@Test @MainActor func viewModel_activate_transitionsToActive() {
+    let vm = InspectorViewModel(configuration: .default)
+    vm.activate()
+    #expect(vm.state == .active)
+    #expect(vm.isActive == true)
+}
+
+@Test @MainActor func viewModel_activate_isIdempotent() {
+    let vm = InspectorViewModel(configuration: .default)
+    vm.activate()
+    vm.activate()
+    #expect(vm.state == .active)
+}
+
+@Test @MainActor func viewModel_deactivate_transitionsToIdle() {
+    let vm = InspectorViewModel(configuration: .default)
+    vm.activate()
+    vm.deactivate()
+    #expect(vm.state == .idle)
+    #expect(vm.isActive == false)
+}
+
+@Test @MainActor func viewModel_clearSelection_fromActive_staysActive() {
+    let vm = InspectorViewModel(configuration: .default)
+    vm.activate()
+    vm.clearSelection()
+    #expect(vm.state == .active)
+}
+
+@Test @MainActor func viewModel_clearSelection_fromIdle_staysIdle() {
+    let vm = InspectorViewModel(configuration: .default)
+    vm.clearSelection()
+    #expect(vm.state == .idle)
+}
