@@ -136,6 +136,17 @@ public struct ViewInspectorInfo {
     /// The bar tint color of the search bar, if applicable.
     public let searchBarTintColor: UIColor?
 
+    // MARK: - Sibling Spacing
+
+    /// Distance from the top edge of this view to the bottom edge of the nearest sibling above. `nil` if none.
+    public let siblingSpacingAbove: CGFloat?
+    /// Distance from the bottom edge of this view to the top edge of the nearest sibling below. `nil` if none.
+    public let siblingSpacingBelow: CGFloat?
+    /// Distance from the left edge of this view to the right edge of the nearest sibling to the left. `nil` if none.
+    public let siblingSpacingLeft: CGFloat?
+    /// Distance from the right edge of this view to the left edge of the nearest sibling to the right. `nil` if none.
+    public let siblingSpacingRight: CGFloat?
+
     // MARK: - Hierarchy
 
     /// The number of direct subviews.
