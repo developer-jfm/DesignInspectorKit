@@ -610,6 +610,8 @@ private func makeInfo(className: String, frame: CGRect) -> ViewInspectorInfo {
         progressValue: nil, progressTintColor: nil, activityIsAnimating: nil,
         searchBarPlaceholder: nil, searchBarText: nil, searchBarStyle: nil,
         searchBarShowsCancelButton: nil, searchBarTintColor: nil,
+        siblingSpacingAbove: nil, siblingSpacingBelow: nil,
+        siblingSpacingLeft: nil, siblingSpacingRight: nil,
         subviewsCount: 0
     )
 }

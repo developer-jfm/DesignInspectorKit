@@ -322,23 +322,21 @@ final class InspectorInfoPanelView: UIView {
         }
 
         // MARK: Sibling Spacing
-        if let view = info.view {
-            if let topSpacing = view.spacingToSiblingAbove {
-                let spacingValue = configuration.spacingTokenResolver.flatMap { $0(topSpacing) }
-                    .map { "\($0) (\(Int(topSpacing))pt)" } ?? "\(Int(topSpacing))pt"
-                addInfoRow(label: InspectorKey.spacingAbove, value: spacingValue)
-            }
-            if let bottomSpacing = view.spacingToSiblingBelow {
-                let spacingValue = configuration.spacingTokenResolver.flatMap { $0(bottomSpacing) }
-                    .map { "\($0) (\(Int(bottomSpacing))pt)" } ?? "\(Int(bottomSpacing))pt"
-                addInfoRow(label: InspectorKey.spacingBelow, value: spacingValue)
-            }
-            if let leftSpacing = view.spacingToSiblingLeft {
-                addInfoRow(label: InspectorKey.spacingLeft, value: "\(Int(leftSpacing))pt")
-            }
-            if let rightSpacing = view.spacingToSiblingRight {
-                addInfoRow(label: InspectorKey.spacingRight, value: "\(Int(rightSpacing))pt")
-            }
+        if let topSpacing = info.siblingSpacingAbove {
+            let spacingValue = configuration.spacingTokenResolver.flatMap { $0(topSpacing) }
+                .map { "\($0) (\(Int(topSpacing))pt)" } ?? "\(Int(topSpacing))pt"
+            addInfoRow(label: InspectorKey.spacingAbove, value: spacingValue)
+        }
+        if let bottomSpacing = info.siblingSpacingBelow {
+            let spacingValue = configuration.spacingTokenResolver.flatMap { $0(bottomSpacing) }
+                .map { "\($0) (\(Int(bottomSpacing))pt)" } ?? "\(Int(bottomSpacing))pt"
+            addInfoRow(label: InspectorKey.spacingBelow, value: spacingValue)
+        }
+        if let leftSpacing = info.siblingSpacingLeft {
+            addInfoRow(label: InspectorKey.spacingLeft, value: "\(Int(leftSpacing))pt")
+        }
+        if let rightSpacing = info.siblingSpacingRight {
+            addInfoRow(label: InspectorKey.spacingRight, value: "\(Int(rightSpacing))pt")
         }
     }
     

@@ -126,6 +126,10 @@ public final class ViewHierarchyInspector {
             searchBarStyle: searchBarProps.style,
             searchBarShowsCancelButton: searchBarProps.showsCancelButton,
             searchBarTintColor: searchBarProps.barTintColor,
+            siblingSpacingAbove: view.spacingToSiblingAbove,
+            siblingSpacingBelow: view.spacingToSiblingBelow,
+            siblingSpacingLeft: view.spacingToSiblingLeft,
+            siblingSpacingRight: view.spacingToSiblingRight,
             subviewsCount: view.subviews.count)
     }
     
