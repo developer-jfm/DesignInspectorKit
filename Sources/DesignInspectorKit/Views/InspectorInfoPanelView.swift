@@ -331,15 +331,6 @@ final class InspectorInfoPanelView: UIView {
             addInfoRow(label: InspectorKey.layoutMargins, value: "T:\(Int(m.top)) L:\(Int(m.left)) B:\(Int(m.bottom)) R:\(Int(m.right))")
         }
 
-        // MARK: Constraints
-        let activeConstraints = info.constraints.filter { $0.isActive }
-        if !activeConstraints.isEmpty {
-            addInfoRow(label: InspectorKey.constraints, value: "(\(activeConstraints.count))")
-            for c in activeConstraints {
-                addInfoRow(label: "", value: c.description)
-            }
-        }
-
         // MARK: Sibling Spacing
         if let topSpacing = info.siblingSpacingAbove {
             let spacingValue = configuration.spacingTokenResolver.flatMap { $0(topSpacing) }
