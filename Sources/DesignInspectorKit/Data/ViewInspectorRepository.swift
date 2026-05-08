@@ -6,6 +6,8 @@ import UIKit
 /// Equivalent to `ViewInspectorRepository` in DesignInspectorKit (Android).
 final class ViewInspectorRepository: InspectorRepository {
 
+    private var inspector: ViewHierarchyInspector?
+
     func findView(in root: UIView, navigationBar: UINavigationBar?, atWindowPoint point: CGPoint, overlayView: UIView) -> UIView? {
         if #available(iOS 19.0, *) {
             if let navBar = navigationBar,
@@ -27,14 +29,12 @@ final class ViewInspectorRepository: InspectorRepository {
         return view.convert(view.bounds, to: coordinateSpace)
     }
 
-    private var cachedInspector: ViewHierarchyInspector?
-    private var cachedConfiguration: InspectorConfiguration?
-
     func inspect(_ view: UIView, configuration: InspectorConfiguration) -> ViewInspectorInfo {
-        if cachedInspector == nil || cachedConfiguration?.highlightColor != configuration.highlightColor {
-            cachedInspector = ViewHierarchyInspector(configuration: configuration)
-            cachedConfiguration = configuration
-        }
-        return cachedInspector!.inspectSingle(view)
+        let h = inspector ?? {
+            let i = ViewHierarchyInspector(configuration: configuration)
+            inspector = i
+            return i
+        }()
+        return h.inspectSingle(view)
     }
 }

@@ -1,4 +1,4 @@
-import UIKit
+import CoreGraphics
 
 /// Represents the UI state of the inspector overlay.
 /// Used as the single source of truth in `InspectorViewModel`.

@@ -5,7 +5,7 @@ import UIKit
 ///
 /// The View (`InspectorOverlayViewController`) observes `$state` and reacts to changes.
 /// All business decisions (which view was hit, what info to show) happen here.
-/// Contains zero UIKit view manipulation — only pure state transitions.
+/// Receives UIKit types as parameters but never manipulates frames, layers, or view hierarchy.
 ///
 /// Equivalent to `InspectorViewModel` in DesignInspectorKit (Android).
 public final class InspectorViewModel {
