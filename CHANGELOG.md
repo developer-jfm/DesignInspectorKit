@@ -7,6 +7,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.5.0] - 2026-05
+
+### Changed
+- Adopted **MVVM + Clean Architecture** — new layers: `Domain/`, `Presentation/`, `Data/`
+- `InspectorOverlayViewController` now observes `InspectorViewModel.$state` via Combine — zero business logic in the View layer
+- All UIKit traversal logic (navBar, iOS version branching) moved from ViewModel to `ViewInspectorRepository`
+- `ViewHierarchyInspector` instance cached in repository — no longer allocated on every tap
+- `InspectorState` domain layer no longer imports `UIKit` (uses `CoreGraphics` only)
+- README redesigned with hero header, badges, centered screenshot grid, and architecture diagram
+
+### Added
+- `InspectorState` enum (`.idle` / `.active` / `.selected(InspectorSelection)`) as single source of truth
+- `InspectorViewModel` with `@Published state`, `activate()`, `deactivate()`, `onTap()`, `clearSelection()`
+- `InspectorRepository` protocol — data layer contract, fully mockable in unit tests
+- `ViewInspectorRepository` — concrete implementation of `InspectorRepository`
+- 18 new unit tests: `InspectorViewModel` state transitions, `InspectorSelection.Equatable`, `isControl`/`isImageView`, `InspectorConfiguration` defaults
+- Total: **63 unit tests**
+
+### Fixed
+- `InspectorState.Equatable` — now compares `frameInOverlay + superviewFrameInOverlay + className` (previously compared `className` only, suppressing re-renders on same view)
+- Removed `weak var view` from `ViewInspectorInfo` model (violated struct value semantics)
+- Fixed hardcoded `UIColor.systemBlue` in spacing annotations — now uses `configuration.annotationColor`
+- Fixed deprecated `UIScreen.main.scale` → `view.window?.screen.scale`
+- Removed force-unwrap in `ViewInspectorRepository.inspect`
+
 ## [1.4.0] - 2026-05
 
 ### Added

@@ -21,7 +21,7 @@ public final class InspectorOverlayViewController: UIViewController {
         static let instructionWidth: CGFloat = 280
         static let instructionHeight: CGFloat = 50
         static let deactivateWidth: CGFloat = 220
-        static let panelHeight: CGFloat = 280
+        static let panelMaxHeightRatio: CGFloat = 0.45
     }
 
     private let targetView: UIView
@@ -223,7 +223,7 @@ public final class InspectorOverlayViewController: UIViewController {
             infoPanel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Layout.padding),
             infoPanel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Layout.padding),
             infoPanel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Layout.padding),
-            infoPanel.heightAnchor.constraint(equalToConstant: Layout.panelHeight),
+            infoPanel.heightAnchor.constraint(lessThanOrEqualTo: view.heightAnchor, multiplier: Layout.panelMaxHeightRatio),
 
             deactivateLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             deactivateLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),

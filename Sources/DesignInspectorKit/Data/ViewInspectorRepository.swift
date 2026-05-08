@@ -4,11 +4,13 @@ import UIKit
 /// Delegates to `ViewHierarchyInspector` and `UIView` traversal extensions.
 ///
 /// Equivalent to `ViewInspectorRepository` in DesignInspectorKit (Android).
-final class ViewInspectorRepository: InspectorRepository {
+public final class ViewInspectorRepository: InspectorRepository {
+
+    public init() {}
 
     private var inspector: ViewHierarchyInspector?
 
-    func findView(in root: UIView, navigationBar: UINavigationBar?, atWindowPoint point: CGPoint, overlayView: UIView) -> UIView? {
+    public func findView(in root: UIView, navigationBar: UINavigationBar?, atWindowPoint point: CGPoint, overlayView: UIView) -> UIView? {
         if #available(iOS 19.0, *) {
             if let navBar = navigationBar,
                let found = navBar.deepestInspectableView(atWindowPoint: point) {
@@ -25,11 +27,11 @@ final class ViewInspectorRepository: InspectorRepository {
         }
     }
 
-    func frame(of view: UIView, in coordinateSpace: UIView) -> CGRect {
+    public func frame(of view: UIView, in coordinateSpace: UIView) -> CGRect {
         return view.convert(view.bounds, to: coordinateSpace)
     }
 
-    func inspect(_ view: UIView, configuration: InspectorConfiguration) -> ViewInspectorInfo {
+    public func inspect(_ view: UIView, configuration: InspectorConfiguration) -> ViewInspectorInfo {
         let h = inspector ?? {
             let i = ViewHierarchyInspector(configuration: configuration)
             inspector = i

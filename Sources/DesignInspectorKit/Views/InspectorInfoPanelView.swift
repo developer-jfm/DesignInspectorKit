@@ -130,6 +130,16 @@ final class InspectorInfoPanelView: UIView {
         ])
     }
     
+    override var intrinsicContentSize: CGSize {
+        let targetWidth = bounds.width > 0 ? bounds.width - Layout.panelInset * 2 : UIScreen.main.bounds.width - Layout.padding * 2 - Layout.panelInset * 2
+        let contentH = containerView.systemLayoutSizeFitting(
+            CGSize(width: targetWidth, height: UIView.layoutFittingCompressedSize.height),
+            withHorizontalFittingPriority: .required,
+            verticalFittingPriority: .fittingSizeLevel
+        ).height
+        return CGSize(width: UIView.noIntrinsicMetric, height: contentH + Layout.panelInset * 2)
+    }
+
     @objc private func closePanelTapped() {
         onClose?()
     }
@@ -322,24 +332,26 @@ final class InspectorInfoPanelView: UIView {
         }
 
         // MARK: Sibling Spacing
-        if let view = info.view {
-            if let topSpacing = view.spacingToSiblingAbove {
-                let spacingValue = configuration.spacingTokenResolver.flatMap { $0(topSpacing) }
-                    .map { "\($0) (\(Int(topSpacing))pt)" } ?? "\(Int(topSpacing))pt"
-                addInfoRow(label: InspectorKey.spacingAbove, value: spacingValue)
-            }
-            if let bottomSpacing = view.spacingToSiblingBelow {
-                let spacingValue = configuration.spacingTokenResolver.flatMap { $0(bottomSpacing) }
-                    .map { "\($0) (\(Int(bottomSpacing))pt)" } ?? "\(Int(bottomSpacing))pt"
-                addInfoRow(label: InspectorKey.spacingBelow, value: spacingValue)
-            }
-            if let leftSpacing = view.spacingToSiblingLeft {
-                addInfoRow(label: InspectorKey.spacingLeft, value: "\(Int(leftSpacing))pt")
-            }
-            if let rightSpacing = view.spacingToSiblingRight {
-                addInfoRow(label: InspectorKey.spacingRight, value: "\(Int(rightSpacing))pt")
-            }
+        if let topSpacing = info.siblingSpacingAbove {
+            let spacingValue = configuration.spacingTokenResolver.flatMap { $0(topSpacing) }
+                .map { "\($0) (\(Int(topSpacing))pt)" } ?? "\(Int(topSpacing))pt"
+            addInfoRow(label: InspectorKey.spacingAbove, value: spacingValue)
         }
+        if let bottomSpacing = info.siblingSpacingBelow {
+            let spacingValue = configuration.spacingTokenResolver.flatMap { $0(bottomSpacing) }
+                .map { "\($0) (\(Int(bottomSpacing))pt)" } ?? "\(Int(bottomSpacing))pt"
+            addInfoRow(label: InspectorKey.spacingBelow, value: spacingValue)
+        }
+        if let leftSpacing = info.siblingSpacingLeft {
+            addInfoRow(label: InspectorKey.spacingLeft, value: "\(Int(leftSpacing))pt")
+        }
+        if let rightSpacing = info.siblingSpacingRight {
+            addInfoRow(label: InspectorKey.spacingRight, value: "\(Int(rightSpacing))pt")
+        }
+
+        setNeedsLayout()
+        layoutIfNeeded()
+        invalidateIntrinsicContentSize()
     }
     
     /// Appends a labeled row to the content stack.

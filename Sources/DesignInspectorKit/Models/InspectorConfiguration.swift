@@ -44,7 +44,7 @@ public struct InspectorConfiguration {
     
     public static let `default` = InspectorConfiguration(
         highlightColor: UIColor.systemBlue.withAlphaComponent(0.3),
-        annotationColor: .systemRed,
+        annotationColor: .systemBlue,
         panelBackgroundColor: .systemBackground,
         textColor: .label,
         secondaryTextColor: .secondaryLabel,
@@ -61,7 +61,7 @@ public struct InspectorConfiguration {
     
     public init(
         highlightColor: UIColor = UIColor.systemBlue.withAlphaComponent(0.3),
-        annotationColor: UIColor = .systemRed,
+        annotationColor: UIColor = .systemBlue,
         panelBackgroundColor: UIColor = .systemBackground,
         textColor: UIColor = .label,
         secondaryTextColor: UIColor = .secondaryLabel,

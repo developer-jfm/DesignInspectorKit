@@ -98,16 +98,22 @@ public final class ViewHierarchyInspector {
             scrollContentSize: layoutProps.scrollContentSize,
             scrollIsPagingEnabled: layoutProps.scrollIsPagingEnabled,
             layoutMargin: view.layoutMargins,
-            constraints: view.constraints.map { constraint in
-                ConstraintInfo(
-                    attribute: attributeName(constraint.firstAttribute),
-                    relation: relationName(constraint.relation),
-                    constant: constraint.constant,
-                    multiplier: constraint.multiplier,
-                    priority: constraint.priority.rawValue,
-                    isActive: constraint.isActive
-                )
-            },
+            constraints: {
+                let own = view.constraints
+                let fromSuperview = (view.superview?.constraints ?? []).filter {
+                    ($0.firstItem as? UIView) === view || ($0.secondItem as? UIView) === view
+                }
+                return (own + fromSuperview).map { constraint in
+                    ConstraintInfo(
+                        attribute: attributeName(constraint.firstAttribute),
+                        relation: relationName(constraint.relation),
+                        constant: constraint.constant,
+                        multiplier: constraint.multiplier,
+                        priority: constraint.priority.rawValue,
+                        isActive: constraint.isActive
+                    )
+                }
+            }(),
             accessibilityIdentifier: view.accessibilityIdentifier,
             accessibilityLabel: accessibilityLabel,
             accessibilityTraits: view.accessibilityTraits,
@@ -126,6 +132,10 @@ public final class ViewHierarchyInspector {
             searchBarStyle: searchBarProps.style,
             searchBarShowsCancelButton: searchBarProps.showsCancelButton,
             searchBarTintColor: searchBarProps.barTintColor,
+            siblingSpacingAbove: view.spacingToSiblingAbove,
+            siblingSpacingBelow: view.spacingToSiblingBelow,
+            siblingSpacingLeft: view.spacingToSiblingLeft,
+            siblingSpacingRight: view.spacingToSiblingRight,
             subviewsCount: view.subviews.count)
     }
     
