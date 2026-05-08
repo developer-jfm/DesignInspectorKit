@@ -130,6 +130,12 @@ final class InspectorInfoPanelView: UIView {
         ])
     }
     
+    override var intrinsicContentSize: CGSize {
+        scrollView.layoutIfNeeded()
+        let contentH = scrollView.contentSize.height
+        return CGSize(width: UIView.noIntrinsicMetric, height: contentH + Layout.panelInset * 2)
+    }
+
     @objc private func closePanelTapped() {
         onClose?()
     }
@@ -338,6 +344,10 @@ final class InspectorInfoPanelView: UIView {
         if let rightSpacing = info.siblingSpacingRight {
             addInfoRow(label: InspectorKey.spacingRight, value: "\(Int(rightSpacing))pt")
         }
+
+        setNeedsLayout()
+        layoutIfNeeded()
+        invalidateIntrinsicContentSize()
     }
     
     /// Appends a labeled row to the content stack.
