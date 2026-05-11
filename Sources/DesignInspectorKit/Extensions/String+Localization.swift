@@ -91,6 +91,28 @@ public enum InspectorKey {
     // MARK: - UIActivityIndicatorView
     public static let activityAnimating     = "inspector.activity_animating".localized
 
+    // MARK: - UISegmentedControl
+    public static let segmentedSegments     = "inspector.segmented_segments".localized
+    public static let segmentedTitles       = "inspector.segmented_titles".localized
+    public static let segmentedSelected     = "inspector.segmented_selected".localized
+
+    // MARK: - UIPageControl
+    public static let pageControlPages      = "inspector.page_control_pages".localized
+    public static let pageControlCurrent    = "inspector.page_control_current".localized
+    public static let pageControlIndicatorTint        = "inspector.page_control_indicator_tint".localized
+    public static let pageControlCurrentTint          = "inspector.page_control_current_tint".localized
+
+    // MARK: - UIStepper
+    public static let stepperValue          = "inspector.stepper_value".localized
+    public static let stepperRange          = "inspector.stepper_range".localized
+    public static let stepperStep           = "inspector.stepper_step".localized
+
+    // MARK: - UIDatePicker
+    public static let datePickerDate        = "inspector.date_picker_date".localized
+    public static let datePickerMode        = "inspector.date_picker_mode".localized
+    public static let datePickerMinDate     = "inspector.date_picker_min_date".localized
+    public static let datePickerMaxDate     = "inspector.date_picker_max_date".localized
+
     // MARK: - UISearchBar
     public static let searchBarPlaceholder  = "inspector.search_placeholder".localized
     public static let searchBarText         = "inspector.search_text".localized

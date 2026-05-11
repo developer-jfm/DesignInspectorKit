@@ -83,6 +83,28 @@
 /* UIActivityIndicatorView */
 "inspector.activity_animating" = "Animando";
 
+/* UISegmentedControl */
+"inspector.segmented_segments" = "Segmentos";
+"inspector.segmented_titles" = "Títulos";
+"inspector.segmented_selected" = "Seleccionado";
+
+/* UIPageControl */
+"inspector.page_control_pages" = "Páginas";
+"inspector.page_control_current" = "Página Actual";
+"inspector.page_control_indicator_tint" = "Tinte del Indicador";
+"inspector.page_control_current_tint" = "Tinte de Página Actual";
+
+/* UIStepper */
+"inspector.stepper_value" = "Valor";
+"inspector.stepper_range" = "Rango";
+"inspector.stepper_step" = "Paso";
+
+/* UIDatePicker */
+"inspector.date_picker_date" = "Fecha";
+"inspector.date_picker_mode" = "Modo";
+"inspector.date_picker_min_date" = "Fecha Mínima";
+"inspector.date_picker_max_date" = "Fecha Máxima";
+
 /* UISearchBar */
 "inspector.search_placeholder" = "Placeholder";
 "inspector.search_text" = "Texto de Búsqueda";

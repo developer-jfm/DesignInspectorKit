@@ -40,6 +40,21 @@ final class ExampleListViewController: UITableViewController {
             subtitle: "identifiers, labels, traits",
             maker: { AccessibilityExampleViewController() }
         ),
+        Example(
+            title: "UISearchBar",
+            subtitle: "Placeholder, text, style, cancel button, tint",
+            maker: { SearchBarExampleViewController() }
+        ),
+        Example(
+            title: "UITextView",
+            subtitle: "Text, font, color, alignment",
+            maker: { TextViewExampleViewController() }
+        ),
+        Example(
+            title: "More Controls",
+            subtitle: "UISegmentedControl, UIPageControl, UIStepper, UIDatePicker",
+            maker: { AdditionalControlsExampleViewController() }
+        ),
     ]
 
     override func viewDidLoad() {
