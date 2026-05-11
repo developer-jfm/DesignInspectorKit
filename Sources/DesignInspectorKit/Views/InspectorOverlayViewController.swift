@@ -22,6 +22,9 @@ public final class InspectorOverlayViewController: UIViewController {
         static let instructionHeight: CGFloat = 50
         static let deactivateWidth: CGFloat = 220
         static let panelMaxHeightRatio: CGFloat = 0.45
+        /// Minimum spacing value (pt) required before drawing an annotation line and label.
+        /// Values smaller than this produce overlapping caps and unreadable labels.
+        static let minAnnotationSpacing: CGFloat = 4
     }
 
     private let targetView: UIView
@@ -338,7 +341,7 @@ public final class InspectorOverlayViewController: UIViewController {
     ///   - color: The color of the line and label.
     ///   - isVertical: Whether the end caps should be drawn horizontally (for vertical lines).
     private func drawSpacingLine(from start: CGPoint, to end: CGPoint, value: CGFloat, color: UIColor, isVertical: Bool) {
-        guard value > 4 else { return }
+        guard value > Layout.minAnnotationSpacing else { return }
         
         let lineLayer = CAShapeLayer()
         let path = UIBezierPath()

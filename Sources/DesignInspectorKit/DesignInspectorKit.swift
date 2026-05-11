@@ -41,6 +41,7 @@ public final class DesignInspector {
     /// - Parameter viewController: The view controller whose view will be inspected.
     public func inspect(viewController: UIViewController) {
         guard isEnabled else { return }
+        guard !(viewController.presentedViewController is InspectorOverlayViewController) else { return }
 
         let navBar = (viewController as? UINavigationController)?.navigationBar
             ?? viewController.navigationController?.navigationBar

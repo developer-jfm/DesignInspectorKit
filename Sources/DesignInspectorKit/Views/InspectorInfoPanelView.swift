@@ -325,6 +325,55 @@ final class InspectorInfoPanelView: UIView {
             addInfoRow(label: InspectorKey.activityAnimating, value: animating ? "true" : "false")
         }
 
+        // MARK: UISegmentedControl
+        if let segments = info.segmentedNumberOfSegments {
+            addInfoRow(label: InspectorKey.segmentedSegments, value: "\(segments)")
+        }
+        if let titles = info.segmentedSegmentTitles, !titles.isEmpty {
+            addInfoRow(label: InspectorKey.segmentedTitles, value: titles.joined(separator: " | "))
+        }
+        if let selectedIndex = info.segmentedSelectedIndex {
+            addInfoRow(label: InspectorKey.segmentedSelected, value: "\(selectedIndex)")
+        }
+
+        // MARK: UIPageControl
+        if let numberOfPages = info.pageControlNumberOfPages {
+            addInfoRow(label: InspectorKey.pageControlPages, value: "\(numberOfPages)")
+        }
+        if let currentPage = info.pageControlCurrentPage {
+            addInfoRow(label: InspectorKey.pageControlCurrent, value: "\(currentPage)")
+        }
+        if let indicatorTint = info.pageControlPageIndicatorTintColor {
+            addInfoRow(label: InspectorKey.pageControlIndicatorTint, value: indicatorTint.hexString, color: indicatorTint)
+        }
+        if let currentTint = info.pageControlCurrentPageIndicatorTintColor {
+            addInfoRow(label: InspectorKey.pageControlCurrentTint, value: currentTint.hexString, color: currentTint)
+        }
+
+        // MARK: UIStepper
+        if let stepperValue = info.stepperValue,
+           let stepperMin = info.stepperMinimumValue,
+           let stepperMax = info.stepperMaximumValue,
+           let stepValue = info.stepperStepValue {
+            addInfoRow(label: InspectorKey.stepperValue, value: String(format: "%.2f", stepperValue))
+            addInfoRow(label: InspectorKey.stepperRange, value: "\(stepperMin) – \(stepperMax)")
+            addInfoRow(label: InspectorKey.stepperStep, value: String(format: "%.2f", stepValue))
+        }
+
+        // MARK: UIDatePicker
+        if let mode = info.datePickerMode {
+            addInfoRow(label: InspectorKey.datePickerMode, value: datePickerModeName(mode))
+        }
+        if let date = info.datePickerDate {
+            addInfoRow(label: InspectorKey.datePickerDate, value: datePickerString(from: date, mode: info.datePickerMode))
+        }
+        if let minDate = info.datePickerMinimumDate {
+            addInfoRow(label: InspectorKey.datePickerMinDate, value: datePickerString(from: minDate, mode: info.datePickerMode))
+        }
+        if let maxDate = info.datePickerMaximumDate {
+            addInfoRow(label: InspectorKey.datePickerMaxDate, value: datePickerString(from: maxDate, mode: info.datePickerMode))
+        }
+
         // MARK: Layout Margins
         let m = info.layoutMargin
         if m.top != 0 || m.left != 0 || m.bottom != 0 || m.right != 0 {
@@ -508,6 +557,42 @@ final class InspectorInfoPanelView: UIView {
         case .bottom: return "Bottom"
         @unknown default:
             return "Unknown"
+        }
+    }
+
+    private static let dateOnlyFormatter: DateFormatter = {
+        let f = DateFormatter(); f.dateStyle = .medium; f.timeStyle = .none; return f
+    }()
+    private static let timeOnlyFormatter: DateFormatter = {
+        let f = DateFormatter(); f.dateStyle = .none; f.timeStyle = .short; return f
+    }()
+    private static let dateAndTimeFormatter: DateFormatter = {
+        let f = DateFormatter(); f.dateStyle = .medium; f.timeStyle = .short; return f
+    }()
+
+    /// Formats a `Date` according to the `UIDatePicker.Mode` so that only relevant parts are shown.
+    /// - `.date` → "May 11, 2026" (no time)
+    /// - `.time` → "12:00 PM" (no date)
+    /// - `.dateAndTime` → "May 11, 2026 at 12:00 PM"
+    /// - `.countDownTimer` / unknown → seconds as "Xs"
+    private func datePickerString(from date: Date, mode: UIDatePicker.Mode?) -> String {
+        guard let mode = mode else { return Self.dateAndTimeFormatter.string(from: date) }
+        switch mode {
+        case .date:           return Self.dateOnlyFormatter.string(from: date)
+        case .time:           return Self.timeOnlyFormatter.string(from: date)
+        case .countDownTimer: return "\(Int(date.timeIntervalSinceReferenceDate))s"
+        default:              return Self.dateAndTimeFormatter.string(from: date)
+        }
+    }
+
+    /// Returns a human-readable string for the given `UIDatePicker.Mode`.
+    private func datePickerModeName(_ mode: UIDatePicker.Mode) -> String {
+        switch mode {
+        case .time:             return "Time"
+        case .date:             return "Date"
+        case .dateAndTime:      return "Date & Time"
+        case .countDownTimer:   return "Count Down Timer"
+        default:                return "Unknown"
         }
     }
 

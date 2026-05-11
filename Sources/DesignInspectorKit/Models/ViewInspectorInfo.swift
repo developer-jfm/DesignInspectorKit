@@ -65,7 +65,7 @@ public struct ViewInspectorInfo {
     public let textColorToken: String?
     /// The text alignment, if applicable.
     public let textAlignment: NSTextAlignment?
-    /// The maximum number of lines, if the view is a `UILabel`.
+    /// The maximum number of lines. Populated for `UILabel`, `UITextField` (always 1), and `UITextView` (via `textContainer.maximumNumberOfLines`; 0 = unlimited).
     public let numberOfLines: Int?
     
     // MARK: - Layout Properties
@@ -102,7 +102,7 @@ public struct ViewInspectorInfo {
     /// Whether the view is an accessibility element.
     public let isAccessibilityElement: Bool
     
-    // MARK: - Control State (UISwitch / UISlider / UIProgressView / UIActivityIndicator)
+    // MARK: - Control State (UISwitch / UISlider / UIProgressView / UIActivityIndicatorView / UISegmentedControl / UIPageControl / UIStepper / UIDatePicker)
     
     /// Whether the switch is on, if the view is a `UISwitch`.
     public let switchIsOn: Bool?
@@ -123,6 +123,48 @@ public struct ViewInspectorInfo {
     /// Whether an activity indicator is currently animating, if applicable.
     public let activityIsAnimating: Bool?
     
+    // MARK: - UISegmentedControl
+
+    /// The index of the currently selected segment, if applicable.
+    public let segmentedSelectedIndex: Int?
+    /// The number of segments, if applicable.
+    public let segmentedNumberOfSegments: Int?
+    /// The titles of all segments, if applicable.
+    public let segmentedSegmentTitles: [String]?
+
+    // MARK: - UIPageControl
+
+    /// The current page index, if applicable.
+    public let pageControlCurrentPage: Int?
+    /// The total number of pages, if applicable.
+    public let pageControlNumberOfPages: Int?
+    /// The page indicator tint color, if applicable.
+    public let pageControlPageIndicatorTintColor: UIColor?
+    /// The current page indicator tint color, if applicable.
+    public let pageControlCurrentPageIndicatorTintColor: UIColor?
+
+    // MARK: - UIStepper
+
+    /// The current value of the stepper, if applicable.
+    public let stepperValue: Double?
+    /// The minimum value of the stepper, if applicable.
+    public let stepperMinimumValue: Double?
+    /// The maximum value of the stepper, if applicable.
+    public let stepperMaximumValue: Double?
+    /// The step increment of the stepper, if applicable.
+    public let stepperStepValue: Double?
+
+    // MARK: - UIDatePicker
+
+    /// The selected date of the date picker, if applicable.
+    public let datePickerDate: Date?
+    /// The display mode of the date picker, if applicable.
+    public let datePickerMode: UIDatePicker.Mode?
+    /// The minimum date allowed, if set.
+    public let datePickerMinimumDate: Date?
+    /// The maximum date allowed, if set.
+    public let datePickerMaximumDate: Date?
+
     // MARK: - UISearchBar
 
     /// The placeholder text of the search bar, if applicable.
@@ -154,13 +196,14 @@ public struct ViewInspectorInfo {
 
     // MARK: - Convenience
 
-    /// Whether the inspected view is a `UIControl` (UIButton, UISwitch, UISlider, etc.).
-    public var isControl: Bool {
-        let controls = ["UIButton", "UISwitch", "UISlider", "UISegmentedControl", "UIDatePicker", "UIStepper", "UIPageControl"]
-        return controls.contains(className)
-    }
-    /// Whether the inspected view is a `UIImageView`.
-    public var isImageView: Bool { className == "UIImageView" }
+    /// Whether the inspected view behaves as a control for tint display purposes.
+    /// `true` for any `UIControl` subclass (UIButton, UISwitch, UISlider, UISegmentedControl, UIStepper, UIDatePicker, UIPageControl…)
+    /// and also for `UIProgressView` and `UIActivityIndicatorView` which are not `UIControl` but carry meaningful tint colors.
+    /// Populated directly from the view's type at inspection time — not a string comparison.
+    public let isControl: Bool
+    /// Whether the inspected view is a `UIImageView` or a direct subclass.
+    /// Uses `className` string comparison — custom subclasses with different names will return `false`.
+    public let isImageView: Bool
 
 }
 

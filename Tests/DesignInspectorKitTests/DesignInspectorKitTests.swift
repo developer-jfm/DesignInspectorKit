@@ -566,12 +566,219 @@ import UIKit
     #expect(info.isImageView == false)
 }
 
+// MARK: - UISegmentedControl inspection
+
+@Test @MainActor func inspector_segmented_extractsNumberOfSegments() {
+    let seg = UISegmentedControl(items: ["A", "B", "C"])
+    let inspector = ViewHierarchyInspector(configuration: .default)
+    let info = inspector.inspectSingle(seg)
+    #expect(info.segmentedNumberOfSegments == 3)
+}
+
+@Test @MainActor func inspector_segmented_extractsSelectedIndex() {
+    let seg = UISegmentedControl(items: ["A", "B", "C"])
+    seg.selectedSegmentIndex = 1
+    let inspector = ViewHierarchyInspector(configuration: .default)
+    let info = inspector.inspectSingle(seg)
+    #expect(info.segmentedSelectedIndex == 1)
+}
+
+@Test @MainActor func inspector_segmented_noSegment_selectedIndexIsNil() {
+    let seg = UISegmentedControl(items: ["A", "B"])
+    seg.selectedSegmentIndex = UISegmentedControl.noSegment
+    let inspector = ViewHierarchyInspector(configuration: .default)
+    let info = inspector.inspectSingle(seg)
+    #expect(info.segmentedSelectedIndex == nil)
+}
+
+@Test @MainActor func inspector_segmented_extractsTitles() {
+    let seg = UISegmentedControl(items: ["Day", "Week", "Month"])
+    let inspector = ViewHierarchyInspector(configuration: .default)
+    let info = inspector.inspectSingle(seg)
+    #expect(info.segmentedSegmentTitles == ["Day", "Week", "Month"])
+}
+
+@Test @MainActor func inspector_segmented_isControl() {
+    let seg = UISegmentedControl(items: ["A"])
+    let inspector = ViewHierarchyInspector(configuration: .default)
+    let info = inspector.inspectSingle(seg)
+    #expect(info.isControl == true)
+}
+
+// MARK: - UIPageControl inspection
+
+@Test @MainActor func inspector_pageControl_extractsNumberOfPages() {
+    let pc = UIPageControl()
+    pc.numberOfPages = 5
+    let inspector = ViewHierarchyInspector(configuration: .default)
+    let info = inspector.inspectSingle(pc)
+    #expect(info.pageControlNumberOfPages == 5)
+}
+
+@Test @MainActor func inspector_pageControl_extractsCurrentPage() {
+    let pc = UIPageControl()
+    pc.numberOfPages = 5
+    pc.currentPage = 2
+    let inspector = ViewHierarchyInspector(configuration: .default)
+    let info = inspector.inspectSingle(pc)
+    #expect(info.pageControlCurrentPage == 2)
+}
+
+@Test @MainActor func inspector_pageControl_extractsIndicatorTintColor() {
+    let pc = UIPageControl()
+    pc.numberOfPages = 3
+    pc.pageIndicatorTintColor = .systemGray
+    pc.currentPageIndicatorTintColor = .systemBlue
+    let inspector = ViewHierarchyInspector(configuration: .default)
+    let info = inspector.inspectSingle(pc)
+    #expect(info.pageControlPageIndicatorTintColor != nil)
+    #expect(info.pageControlCurrentPageIndicatorTintColor != nil)
+}
+
+@Test @MainActor func inspector_pageControl_isControl() {
+    let pc = UIPageControl()
+    let inspector = ViewHierarchyInspector(configuration: .default)
+    let info = inspector.inspectSingle(pc)
+    #expect(info.isControl == true)
+}
+
+// MARK: - UIStepper inspection
+
+@Test @MainActor func inspector_stepper_extractsValue() {
+    let stepper = UIStepper()
+    stepper.minimumValue = 0
+    stepper.maximumValue = 10
+    stepper.stepValue = 0.5
+    stepper.value = 3.5
+    let inspector = ViewHierarchyInspector(configuration: .default)
+    let info = inspector.inspectSingle(stepper)
+    #expect(info.stepperValue == 3.5)
+    #expect(info.stepperMinimumValue == 0)
+    #expect(info.stepperMaximumValue == 10)
+    #expect(info.stepperStepValue == 0.5)
+}
+
+@Test @MainActor func inspector_stepper_isControl() {
+    let stepper = UIStepper()
+    let inspector = ViewHierarchyInspector(configuration: .default)
+    let info = inspector.inspectSingle(stepper)
+    #expect(info.isControl == true)
+}
+
+// MARK: - UIDatePicker inspection
+
+@Test @MainActor func inspector_datePicker_extractsDate() {
+    let datePicker = UIDatePicker()
+    let date = Date(timeIntervalSince1970: 1_000_000)
+    datePicker.date = date
+    let inspector = ViewHierarchyInspector(configuration: .default)
+    let info = inspector.inspectSingle(datePicker)
+    #expect(info.datePickerDate == date)
+}
+
+@Test @MainActor func inspector_datePicker_extractsMode() {
+    let datePicker = UIDatePicker()
+    datePicker.datePickerMode = .time
+    let inspector = ViewHierarchyInspector(configuration: .default)
+    let info = inspector.inspectSingle(datePicker)
+    #expect(info.datePickerMode == .time)
+}
+
+@Test @MainActor func inspector_datePicker_extractsMinMaxDate() {
+    let datePicker = UIDatePicker()
+    let min = Date(timeIntervalSince1970: 0)
+    let max = Date(timeIntervalSince1970: 2_000_000)
+    datePicker.minimumDate = min
+    datePicker.maximumDate = max
+    let inspector = ViewHierarchyInspector(configuration: .default)
+    let info = inspector.inspectSingle(datePicker)
+    #expect(info.datePickerMinimumDate == min)
+    #expect(info.datePickerMaximumDate == max)
+}
+
+@Test @MainActor func inspector_datePicker_isControl() {
+    let datePicker = UIDatePicker()
+    let inspector = ViewHierarchyInspector(configuration: .default)
+    let info = inspector.inspectSingle(datePicker)
+    #expect(info.isControl == true)
+}
+
+// MARK: - UITextView inspection
+
+@Test @MainActor func inspector_textView_extractsText() {
+    let tv = UITextView()
+    tv.text = "Hello TextView"
+    let inspector = ViewHierarchyInspector(configuration: .default)
+    let info = inspector.inspectSingle(tv)
+    #expect(info.text == "Hello TextView")
+}
+
+@Test @MainActor func inspector_textView_extractsFont() {
+    let tv = UITextView()
+    tv.font = .systemFont(ofSize: 14)
+    let inspector = ViewHierarchyInspector(configuration: .default)
+    let info = inspector.inspectSingle(tv)
+    #expect(info.font?.pointSize == 14)
+}
+
+@Test @MainActor func inspector_textView_numberOfLines_unlimited() {
+    let tv = UITextView()
+    tv.textContainer.maximumNumberOfLines = 0
+    let inspector = ViewHierarchyInspector(configuration: .default)
+    let info = inspector.inspectSingle(tv)
+    #expect(info.numberOfLines == 0)
+}
+
+@Test @MainActor func inspector_textView_numberOfLines_limited() {
+    let tv = UITextView()
+    tv.textContainer.maximumNumberOfLines = 3
+    let inspector = ViewHierarchyInspector(configuration: .default)
+    let info = inspector.inspectSingle(tv)
+    #expect(info.numberOfLines == 3)
+}
+
+// MARK: - isControl for non-UIControl inspectable views
+
+@Test @MainActor func inspector_progressView_isControl() {
+    let progress = UIProgressView()
+    let inspector = ViewHierarchyInspector(configuration: .default)
+    let info = inspector.inspectSingle(progress)
+    #expect(info.isControl == true)
+}
+
+@Test @MainActor func inspector_activityIndicator_isControl() {
+    let activity = UIActivityIndicatorView()
+    let inspector = ViewHierarchyInspector(configuration: .default)
+    let info = inspector.inspectSingle(activity)
+    #expect(info.isControl == true)
+}
+
+@Test @MainActor func inspector_plainView_isControl_false() {
+    let view = UIView()
+    let inspector = ViewHierarchyInspector(configuration: .default)
+    let info = inspector.inspectSingle(view)
+    #expect(info.isControl == false)
+}
+
+// MARK: - InspectorConfiguration token
+
+@Test func inspectorConfiguration_twoInstances_haveDistinctTokens() {
+    let a = InspectorConfiguration()
+    let b = InspectorConfiguration()
+    #expect(a.token != b.token)
+}
+
+@Test func inspectorConfiguration_default_hasToken() {
+    let config = InspectorConfiguration.default
+    #expect(config.token != UUID(uuidString: "00000000-0000-0000-0000-000000000000")!)
+}
+
 // MARK: - InspectorConfiguration
 
 @Test func inspectorConfiguration_default_hasExpectedHighlightColor() {
     let config = InspectorConfiguration.default
-    #expect(config.highlightColor != nil)
-    #expect(config.annotationColor != nil)
+    #expect(config.highlightColor == UIColor.systemBlue.withAlphaComponent(0.3))
+    #expect(config.annotationColor == UIColor.systemBlue)
 }
 
 @Test func inspectorConfiguration_custom_overridesHighlightColor() {
@@ -608,10 +815,17 @@ private func makeInfo(className: String, frame: CGRect) -> ViewInspectorInfo {
         switchIsOn: nil, switchOnTintColor: nil, switchThumbTintColor: nil,
         sliderMinValue: nil, sliderMaxValue: nil, sliderValue: nil,
         progressValue: nil, progressTintColor: nil, activityIsAnimating: nil,
+        segmentedSelectedIndex: nil, segmentedNumberOfSegments: nil, segmentedSegmentTitles: nil,
+        pageControlCurrentPage: nil, pageControlNumberOfPages: nil,
+        pageControlPageIndicatorTintColor: nil, pageControlCurrentPageIndicatorTintColor: nil,
+        stepperValue: nil, stepperMinimumValue: nil, stepperMaximumValue: nil, stepperStepValue: nil,
+        datePickerDate: nil, datePickerMode: nil, datePickerMinimumDate: nil, datePickerMaximumDate: nil,
         searchBarPlaceholder: nil, searchBarText: nil, searchBarStyle: nil,
         searchBarShowsCancelButton: nil, searchBarTintColor: nil,
         siblingSpacingAbove: nil, siblingSpacingBelow: nil,
         siblingSpacingLeft: nil, siblingSpacingRight: nil,
-        subviewsCount: 0
+        subviewsCount: 0,
+        isControl: false,
+        isImageView: false
     )
 }

@@ -6,10 +6,13 @@ import UIKit
 /// Equivalent to `ViewInspectorRepository` in DesignInspectorKit (Android).
 public final class ViewInspectorRepository: InspectorRepository {
 
+    /// Creates a new repository instance.
     public init() {}
 
     private var inspector: ViewHierarchyInspector?
+    private var configurationToken: UUID?
 
+    /// Returns the deepest inspectable view at `point` (window-space) within `root`, checking `navigationBar` first.
     public func findView(in root: UIView, navigationBar: UINavigationBar?, atWindowPoint point: CGPoint, overlayView: UIView) -> UIView? {
         if #available(iOS 19.0, *) {
             if let navBar = navigationBar,
@@ -27,16 +30,17 @@ public final class ViewInspectorRepository: InspectorRepository {
         }
     }
 
+    /// Returns the frame of `view` converted to `coordinateSpace`.
     public func frame(of view: UIView, in coordinateSpace: UIView) -> CGRect {
         return view.convert(view.bounds, to: coordinateSpace)
     }
 
+    /// Extracts all inspectable properties from `view`, recreating the inspector if the configuration changed.
     public func inspect(_ view: UIView, configuration: InspectorConfiguration) -> ViewInspectorInfo {
-        let h = inspector ?? {
-            let i = ViewHierarchyInspector(configuration: configuration)
-            inspector = i
-            return i
-        }()
-        return h.inspectSingle(view)
+        if configurationToken != configuration.token || inspector == nil {
+            inspector = ViewHierarchyInspector(configuration: configuration)
+            configurationToken = configuration.token
+        }
+        return inspector!.inspectSingle(view)
     }
 }

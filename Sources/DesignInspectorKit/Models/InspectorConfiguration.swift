@@ -11,7 +11,11 @@ import UIKit
 /// Use `InspectorConfiguration.default` as a starting point and customize
 /// appearance colors and design token resolvers as needed.
 public struct InspectorConfiguration {
-    
+
+    /// A unique token assigned at creation time.
+    /// Used by `ViewInspectorRepository` to detect configuration changes and invalidate the cached inspector.
+    public let token: UUID = UUID()
+
     // MARK: - Appearance
     
     /// The color used to highlight the selected view's frame.
@@ -24,7 +28,7 @@ public struct InspectorConfiguration {
     public var textColor: UIColor
     /// The secondary (label) text color used in the info panel.
     public var secondaryTextColor: UIColor
-    /// The background color of the full-screen overlay. Defaults to semi-transparent black.
+    /// The background color of the full-screen overlay. Defaults to semi-transparent gray.
     public var overlayBackgroundColor: UIColor
     
     // MARK: - Token Resolvers
@@ -48,7 +52,7 @@ public struct InspectorConfiguration {
         panelBackgroundColor: .systemBackground,
         textColor: .label,
         secondaryTextColor: .secondaryLabel,
-        overlayBackgroundColor: UIColor.black.withAlphaComponent(0.8),
+        overlayBackgroundColor: UIColor.systemGray.withAlphaComponent(0.7),
         colorTokenResolver: nil,
         stackSpacingTokenResolver: nil,
         fontTokenResolver: nil,
@@ -65,7 +69,7 @@ public struct InspectorConfiguration {
         panelBackgroundColor: UIColor = .systemBackground,
         textColor: UIColor = .label,
         secondaryTextColor: UIColor = .secondaryLabel,
-        overlayBackgroundColor: UIColor = UIColor.black.withAlphaComponent(0.8),
+        overlayBackgroundColor: UIColor = UIColor.systemGray.withAlphaComponent(0.7),
         colorTokenResolver: ((UIColor) -> String)? = nil,
         stackSpacingTokenResolver: ((CGFloat) -> String)? = nil,
         fontTokenResolver: ((UIFont) -> String)? = nil,

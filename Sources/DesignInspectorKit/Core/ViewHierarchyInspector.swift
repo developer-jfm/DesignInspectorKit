@@ -127,6 +127,21 @@ public final class ViewHierarchyInspector {
             progressValue: controlProps.progressValue,
             progressTintColor: controlProps.progressTintColor,
             activityIsAnimating: controlProps.activityIsAnimating,
+            segmentedSelectedIndex: controlProps.segmentedSelectedIndex,
+            segmentedNumberOfSegments: controlProps.segmentedNumberOfSegments,
+            segmentedSegmentTitles: controlProps.segmentedSegmentTitles,
+            pageControlCurrentPage: controlProps.pageControlCurrentPage,
+            pageControlNumberOfPages: controlProps.pageControlNumberOfPages,
+            pageControlPageIndicatorTintColor: controlProps.pageControlPageIndicatorTintColor,
+            pageControlCurrentPageIndicatorTintColor: controlProps.pageControlCurrentPageIndicatorTintColor,
+            stepperValue: controlProps.stepperValue,
+            stepperMinimumValue: controlProps.stepperMinimumValue,
+            stepperMaximumValue: controlProps.stepperMaximumValue,
+            stepperStepValue: controlProps.stepperStepValue,
+            datePickerDate: controlProps.datePickerDate,
+            datePickerMode: controlProps.datePickerMode,
+            datePickerMinimumDate: controlProps.datePickerMinimumDate,
+            datePickerMaximumDate: controlProps.datePickerMaximumDate,
             searchBarPlaceholder: searchBarProps.placeholder,
             searchBarText: searchBarProps.text,
             searchBarStyle: searchBarProps.style,
@@ -136,7 +151,9 @@ public final class ViewHierarchyInspector {
             siblingSpacingBelow: view.spacingToSiblingBelow,
             siblingSpacingLeft: view.spacingToSiblingLeft,
             siblingSpacingRight: view.spacingToSiblingRight,
-            subviewsCount: view.subviews.count)
+            subviewsCount: view.subviews.count,
+            isControl: view is UIControl || view is UIProgressView || view is UIActivityIndicatorView,
+            isImageView: view is UIImageView)
     }
     
     private struct TextProperties {
@@ -169,10 +186,11 @@ public final class ViewHierarchyInspector {
             props.textAlignment = textField.textAlignment
             props.numberOfLines = 1
         } else if let textView = view as? UITextView {
-            props.text = textView.text
+            props.text = textView.text?.nilIfEmpty
             props.font = textView.font
             props.textColor = textView.textColor
             props.textAlignment = textView.textAlignment
+            props.numberOfLines = textView.textContainer.maximumNumberOfLines
         }
         return props
     }
@@ -254,7 +272,11 @@ public final class ViewHierarchyInspector {
         props.text = searchBar.text?.nilIfEmpty
         props.style = searchBar.searchBarStyle
         props.showsCancelButton = searchBar.showsCancelButton
-        props.barTintColor = searchBar.barTintColor
+        if #available(iOS 13.0, *) {
+            props.barTintColor = searchBar.searchTextField.backgroundColor ?? searchBar.barTintColor
+        } else {
+            props.barTintColor = searchBar.barTintColor
+        }
         return props
     }
 
@@ -308,6 +330,21 @@ public final class ViewHierarchyInspector {
         var progressValue: Float?
         var progressTintColor: UIColor?
         var activityIsAnimating: Bool?
+        var segmentedSelectedIndex: Int?
+        var segmentedNumberOfSegments: Int?
+        var segmentedSegmentTitles: [String]?
+        var pageControlCurrentPage: Int?
+        var pageControlNumberOfPages: Int?
+        var pageControlPageIndicatorTintColor: UIColor?
+        var pageControlCurrentPageIndicatorTintColor: UIColor?
+        var stepperValue: Double?
+        var stepperMinimumValue: Double?
+        var stepperMaximumValue: Double?
+        var stepperStepValue: Double?
+        var datePickerDate: Date?
+        var datePickerMode: UIDatePicker.Mode?
+        var datePickerMinimumDate: Date?
+        var datePickerMaximumDate: Date?
     }
     
     private func extractControlState(from view: UIView) -> ControlState {
@@ -326,6 +363,25 @@ public final class ViewHierarchyInspector {
             props.progressTintColor = progress.progressTintColor
         } else if let activity = view as? UIActivityIndicatorView {
             props.activityIsAnimating = activity.isAnimating
+        } else if let segmented = view as? UISegmentedControl {
+            props.segmentedSelectedIndex = segmented.selectedSegmentIndex == UISegmentedControl.noSegment ? nil : segmented.selectedSegmentIndex
+            props.segmentedNumberOfSegments = segmented.numberOfSegments
+            props.segmentedSegmentTitles = (0..<segmented.numberOfSegments).compactMap { segmented.titleForSegment(at: $0) }
+        } else if let pageControl = view as? UIPageControl {
+            props.pageControlCurrentPage = pageControl.currentPage
+            props.pageControlNumberOfPages = pageControl.numberOfPages
+            props.pageControlPageIndicatorTintColor = pageControl.pageIndicatorTintColor
+            props.pageControlCurrentPageIndicatorTintColor = pageControl.currentPageIndicatorTintColor
+        } else if let stepper = view as? UIStepper {
+            props.stepperValue = stepper.value
+            props.stepperMinimumValue = stepper.minimumValue
+            props.stepperMaximumValue = stepper.maximumValue
+            props.stepperStepValue = stepper.stepValue
+        } else if let datePicker = view as? UIDatePicker {
+            props.datePickerDate = datePicker.date
+            props.datePickerMode = datePicker.datePickerMode
+            props.datePickerMinimumDate = datePicker.minimumDate
+            props.datePickerMaximumDate = datePicker.maximumDate
         }
         
         return props

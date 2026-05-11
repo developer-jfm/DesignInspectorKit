@@ -9,7 +9,7 @@ import UIKit
 extension UIView {
 
     /// Returns a flat array of all subviews recursively. Does not include the receiver itself.
-    public func allSubviews() -> [UIView] {
+    func allSubviews() -> [UIView] {
         var result = subviews
         for subview in subviews {
             result.append(contentsOf: subview.allSubviews())
