@@ -576,11 +576,13 @@ final class InspectorInfoPanelView: UIView {
     /// - `.dateAndTime` → "May 11, 2026 at 12:00 PM"
     /// - `.countDownTimer` / unknown → seconds as "Xs"
     private func datePickerString(from date: Date, mode: UIDatePicker.Mode?) -> String {
+        guard let mode = mode else { return Self.dateAndTimeFormatter.string(from: date) }
         switch mode {
-        case .date:        return Self.dateOnlyFormatter.string(from: date)
-        case .time:        return Self.timeOnlyFormatter.string(from: date)
+        case .date:           return Self.dateOnlyFormatter.string(from: date)
+        case .time:           return Self.timeOnlyFormatter.string(from: date)
         case .countDownTimer: return "\(Int(date.timeIntervalSinceReferenceDate))s"
-        default:           return Self.dateAndTimeFormatter.string(from: date)
+        case .dateAndTime:    return Self.dateAndTimeFormatter.string(from: date)
+        @unknown default:     return Self.dateAndTimeFormatter.string(from: date)
         }
     }
 

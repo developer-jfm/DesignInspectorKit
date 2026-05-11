@@ -777,8 +777,8 @@ import UIKit
 
 @Test func inspectorConfiguration_default_hasExpectedHighlightColor() {
     let config = InspectorConfiguration.default
-    #expect(config.highlightColor != nil)
-    #expect(config.annotationColor != nil)
+    #expect(config.highlightColor == UIColor.systemBlue.withAlphaComponent(0.3))
+    #expect(config.annotationColor == UIColor.systemBlue)
 }
 
 @Test func inspectorConfiguration_custom_overridesHighlightColor() {
