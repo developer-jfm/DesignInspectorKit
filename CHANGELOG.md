@@ -7,22 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.7.0] - 2026-05
-
-### Added
-- `UISegmentedControl` inspection: number of segments, segment titles, selected index
-- `UIPageControl` inspection: number of pages, current page, page indicator tint color, current page indicator tint color
-- `UIStepper` inspection: current value, minimum value, maximum value, step increment
-- `UIDatePicker` inspection: selected date, display mode, minimum date, maximum date
-- 16 new fields in `ViewInspectorInfo` model covering the 4 new components
-- 16 new `InspectorKey` typed constants in `String+Localization.swift`
-- Localization strings for all 4 new components in `en`, `pt-BR` and `es`
-- `datePickerModeName(_:)` helper and `DateFormatter` in `InspectorInfoPanelView`
-- `SearchBarExampleViewController` example screen (3 search bar variants: default, minimal + cancel, tinted with text)
-- `TextViewExampleViewController` example screen (basic, styled and editable `UITextView`)
-- `AdditionalControlsExampleViewController` example screen (`UISegmentedControl`, `UIPageControl`, `UIStepper`, `UIDatePicker`)
-- 3 new entries in `ExampleListViewController` menu
-
 ## [1.6.0] - 2026-05
 
 ### Fixed

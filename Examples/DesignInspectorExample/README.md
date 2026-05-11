@@ -60,15 +60,12 @@ Once the app is running:
 
 | Screen | Demonstrates |
 |--------|-------------|
-| **UILabel & UIButton** | Text, font, color, cornerRadius, borderWidth, contentInsets, accessibility |
+| **UILabel & UIButton** | Text, font, color, cornerRadius, borderWidth, accessibility |
 | **UIImageView** | Image name, intrinsic size, rendered size, contentMode |
 | **UIStackView** | Axis, distribution, alignment, spacing |
 | **UIScrollView** | contentSize, contentInset, paging |
-| **Controls** | UISwitch (on/off, tint), UISlider (value, range), UIProgressView (progress, tint), UIActivityIndicatorView |
-| **Accessibility** | accessibilityIdentifier, accessibilityLabel, accessibilityTraits |
-| **UISearchBar** | Placeholder, text, style (default / minimal), cancel button, bar tint color |
-| **UITextView** | Text, font, color, alignment — basic, styled and editable variants |
-| **More Controls** | UISegmentedControl (segments, titles, selected index), UIPageControl (pages, current, tint colors), UIStepper (value, range, step), UIDatePicker (date, mode, min/max) |
+| **Controls** | UISwitch, UISlider, UIProgressView, UIActivityIndicatorView |
+| **Accessibility** | accessibilityIdentifier, accessibilityLabel, traits |
 
 ---
 

@@ -145,12 +145,7 @@ DesignInspector.shared.configuration = config
 | **UISlider** | Current value, Min/Max range |
 | **UIProgressView** | Progress %, Progress tint color |
 | **UIActivityIndicatorView** | Is animating |
-| **UISegmentedControl** | Number of segments, Segment titles, Selected index |
-| **UIPageControl** | Number of pages, Current page, Indicator tint colors |
-| **UIStepper** | Current value, Min/Max range, Step increment |
-| **UIDatePicker** | Selected date, Mode, Min/Max date |
 | **UISearchBar** | Placeholder, Text, Style, Cancel button, Bar tint color |
-| **UITextView** | Text, Font, Text Color, Alignment |
 | **Accessibility** | Identifier, Label, Traits, Is accessibility element |
 | **Sibling Spacing** | Distance to nearest sibling above, below, left, right |
 
@@ -256,7 +251,7 @@ A fully working example is included:
 Examples/DesignInspectorExample/DesignInspectorExample.xcodeproj
 ```
 
-Includes dedicated screens for UILabel, UIButton, UIImageView, UIStackView, UIScrollView, UISearchBar, UITextView, controls (UISwitch, UISlider, UIProgressView, UIActivityIndicatorView), additional controls (UISegmentedControl, UIPageControl, UIStepper, UIDatePicker) and accessibility.
+Includes dedicated screens for UILabel, UIButton, UIImageView, UIStackView, UIScrollView, controls, accessibility and UISearchBar.
 
 See [`Examples/DesignInspectorExample/README.md`](Examples/DesignInspectorExample/README.md) for setup instructions.
 
