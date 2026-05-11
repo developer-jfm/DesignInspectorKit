@@ -560,27 +560,28 @@ final class InspectorInfoPanelView: UIView {
         }
     }
 
+    private static let dateOnlyFormatter: DateFormatter = {
+        let f = DateFormatter(); f.dateStyle = .medium; f.timeStyle = .none; return f
+    }()
+    private static let timeOnlyFormatter: DateFormatter = {
+        let f = DateFormatter(); f.dateStyle = .none; f.timeStyle = .short; return f
+    }()
+    private static let dateAndTimeFormatter: DateFormatter = {
+        let f = DateFormatter(); f.dateStyle = .medium; f.timeStyle = .short; return f
+    }()
+
     /// Formats a `Date` according to the `UIDatePicker.Mode` so that only relevant parts are shown.
     /// - `.date` → "May 11, 2026" (no time)
     /// - `.time` → "12:00 PM" (no date)
     /// - `.dateAndTime` → "May 11, 2026 at 12:00 PM"
     /// - `.countDownTimer` / unknown → seconds as "Xs"
     private func datePickerString(from date: Date, mode: UIDatePicker.Mode?) -> String {
-        let f = DateFormatter()
         switch mode {
-        case .date:
-            f.dateStyle = .medium
-            f.timeStyle = .none
-        case .time:
-            f.dateStyle = .none
-            f.timeStyle = .short
-        case .countDownTimer:
-            return "\(Int(date.timeIntervalSinceReferenceDate))s"
-        default:
-            f.dateStyle = .medium
-            f.timeStyle = .short
+        case .date:        return Self.dateOnlyFormatter.string(from: date)
+        case .time:        return Self.timeOnlyFormatter.string(from: date)
+        case .countDownTimer: return "\(Int(date.timeIntervalSinceReferenceDate))s"
+        default:           return Self.dateAndTimeFormatter.string(from: date)
         }
-        return f.string(from: date)
     }
 
     /// Returns a human-readable string for the given `UIDatePicker.Mode`.

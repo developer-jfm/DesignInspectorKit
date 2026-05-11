@@ -9,6 +9,7 @@ public final class ViewInspectorRepository: InspectorRepository {
     public init() {}
 
     private var inspector: ViewHierarchyInspector?
+    private var configurationToken: UUID?
 
     public func findView(in root: UIView, navigationBar: UINavigationBar?, atWindowPoint point: CGPoint, overlayView: UIView) -> UIView? {
         if #available(iOS 19.0, *) {
@@ -32,11 +33,10 @@ public final class ViewInspectorRepository: InspectorRepository {
     }
 
     public func inspect(_ view: UIView, configuration: InspectorConfiguration) -> ViewInspectorInfo {
-        let h = inspector ?? {
-            let i = ViewHierarchyInspector(configuration: configuration)
-            inspector = i
-            return i
-        }()
-        return h.inspectSingle(view)
+        if configurationToken != configuration.token {
+            inspector = ViewHierarchyInspector(configuration: configuration)
+            configurationToken = configuration.token
+        }
+        return inspector!.inspectSingle(view)
     }
 }

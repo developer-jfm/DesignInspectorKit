@@ -151,6 +151,7 @@ public final class ViewHierarchyInspector {
             siblingSpacingBelow: view.spacingToSiblingBelow,
             siblingSpacingLeft: view.spacingToSiblingLeft,
             siblingSpacingRight: view.spacingToSiblingRight,
+            isControl: view is UIControl || view is UIProgressView || view is UIActivityIndicatorView,
             subviewsCount: view.subviews.count)
     }
     

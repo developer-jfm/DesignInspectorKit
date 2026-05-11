@@ -11,7 +11,11 @@ import UIKit
 /// Use `InspectorConfiguration.default` as a starting point and customize
 /// appearance colors and design token resolvers as needed.
 public struct InspectorConfiguration {
-    
+
+    /// A unique token assigned at creation time.
+    /// Used by `ViewInspectorRepository` to detect configuration changes and invalidate the cached inspector.
+    public let token: UUID = UUID()
+
     // MARK: - Appearance
     
     /// The color used to highlight the selected view's frame.

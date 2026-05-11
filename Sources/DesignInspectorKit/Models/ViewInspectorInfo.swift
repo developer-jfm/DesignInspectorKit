@@ -196,11 +196,11 @@ public struct ViewInspectorInfo {
 
     // MARK: - Convenience
 
-    /// Whether the inspected view is a `UIControl` (UIButton, UISwitch, UISlider, etc.).
-    public var isControl: Bool {
-        let controls = ["UIButton", "UISwitch", "UISlider", "UISegmentedControl", "UIDatePicker", "UIStepper", "UIPageControl"]
-        return controls.contains(className)
-    }
+    /// Whether the inspected view behaves as a control for tint display purposes.
+    /// `true` for any `UIControl` subclass (UIButton, UISwitch, UISlider, UISegmentedControl, UIStepper, UIDatePicker, UIPageControl…)
+    /// and also for `UIProgressView` and `UIActivityIndicatorView` which are not `UIControl` but carry meaningful tint colors.
+    /// Populated directly from the view's type at inspection time — not a string comparison.
+    public let isControl: Bool
     /// Whether the inspected view is a `UIImageView`.
     public var isImageView: Bool { className == "UIImageView" }
 
