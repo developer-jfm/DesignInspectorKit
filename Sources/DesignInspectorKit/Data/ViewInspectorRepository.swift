@@ -33,7 +33,7 @@ public final class ViewInspectorRepository: InspectorRepository {
     }
 
     public func inspect(_ view: UIView, configuration: InspectorConfiguration) -> ViewInspectorInfo {
-        if configurationToken != configuration.token {
+        if configurationToken != configuration.token || inspector == nil {
             inspector = ViewHierarchyInspector(configuration: configuration)
             configurationToken = configuration.token
         }
