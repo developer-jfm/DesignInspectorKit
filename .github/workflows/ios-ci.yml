@@ -23,16 +23,21 @@ jobs:
       - name: Show Xcode Version
         run: xcodebuild -version
       
-      - name: Build Package
-        run: swift build
+      - name: Build for iOS
+        run: |
+          xcodebuild build-for-testing \
+            -scheme DesignInspectorKit \
+            -destination "${{ matrix.destination }}" \
+            -derivedDataPath DerivedData \
+            CODE_SIGNING_REQUIRED=NO
       
       - name: Run Tests
         run: |
-          xcodebuild test \
+          xcodebuild test-without-building \
             -scheme DesignInspectorKit \
             -destination "${{ matrix.destination }}" \
-            -resultBundlePath TestResults.xcresult \
-            CODE_SIGNING_REQUIRED=NO
+            -derivedDataPath DerivedData \
+            -resultBundlePath TestResults.xcresult
       
       - name: Upload Test Results
         if: always()
