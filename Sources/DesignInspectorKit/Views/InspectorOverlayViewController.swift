@@ -244,7 +244,13 @@ public final class InspectorOverlayViewController: UIViewController {
 
     @objc private func handleTap(_ gesture: UITapGestureRecognizer) {
         guard !isClosing else { return }
-        let windowPoint = gesture.location(in: view.window)
+        let pointInOverlay = gesture.location(in: view)
+        let windowPoint: CGPoint
+        if let window = targetView.window {
+            windowPoint = view.convert(pointInOverlay, to: window)
+        } else {
+            windowPoint = pointInOverlay
+        }
         viewModel.onTap(in: targetView, navigationBar: navigationBar, at: windowPoint, overlayView: view)
     }
 

@@ -23,7 +23,8 @@ extension UIView {
     /// - Parameter point: The point in the receiver's coordinate space.
     /// - Returns: The deepest subview containing the point, or `self` if no subview matches.
     public func deepestView(at point: CGPoint) -> UIView? {
-        guard !isHidden, alpha > 0.01, bounds.contains(point) else { return nil }
+        guard !isHidden, alpha > 0.01 else { return nil }
+        guard bounds.contains(point) || !clipsToBounds else { return nil }
 
         for subview in subviews.reversed() {
             guard !subview.isHidden, subview.alpha > 0.01 else { continue }
@@ -33,7 +34,7 @@ extension UIView {
             }
         }
 
-        return self
+        return bounds.contains(point) ? self : nil
     }
 
     /// Returns `true` if this view is an internal UIKit container that should be
@@ -77,8 +78,11 @@ extension UIView {
     }
     
     /// The frame of the view converted to the window's coordinate space.
-    /// Returns the view's own frame if it has no superview.
+    /// Returns the view's own frame if it has no window or superview.
     public var frameInWindow: CGRect {
+        if let window = window {
+            return convert(bounds, to: window)
+        }
         return superview?.convert(frame, to: nil) ?? frame
     }
             
