@@ -23,9 +23,11 @@ public final class ViewInspectorRepository: InspectorRepository {
         } else {
             if let navBar = navigationBar {
                 let p = overlayView.convert(point, to: navBar)
+                if let found = navBar.deepestInspectableView(atWindowPoint: point) { return found }
                 if let found = navBar.deepestView(at: p) { return found }
             }
-            let localPoint = root.convert(point, from: root.window)
+            if let found = root.deepestInspectableView(atWindowPoint: point) { return found }
+            let localPoint = overlayView.convert(point, to: root)
             return root.deepestView(at: localPoint)
         }
     }
